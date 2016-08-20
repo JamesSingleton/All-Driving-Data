@@ -59,7 +59,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Handler;
 
-
+//Add to git!
 public class MainActivity extends AppCompatActivity {
 
     Context mContext = MainActivity.this;
