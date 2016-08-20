@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">All Driving Data</string>
+    <string name="title_activity_driving_map">Driving Map</string>
+    <string name="title_activity_navagation">NavagationActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="title_activity_nav_drawer">All Driving Data</string>
+    <string name="send_to">Share with</string>
+    <string name="speed_graph">Speed Graph</string>
+    <string name="drive_player">Drive Player</string>
+    <string name="google_maps">Google Maps</string>
+    <string name="weekly_drives">Weekly Drives</string>
+    <string name="dialog_box">Due to the amount of data being retrieved, please choose between retieving this data via WiFi or Cell Data?</string>
+    <string name="WiFi">WiFi</string>
+    <string name="Cell_Data">Cell Data (4G)</string>
+</resources>
