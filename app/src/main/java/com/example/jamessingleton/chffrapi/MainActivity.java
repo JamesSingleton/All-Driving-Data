@@ -6,58 +6,47 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Handler;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.Request;
+
+
 
 //Add to git!
 public class MainActivity extends AppCompatActivity {
@@ -70,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     static final String API_KEY = "AIzaSyCtXKguuIHokLzi2emPOAK1JzI4ScWW_oo";
     static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
+    static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
     static final String ClientId = "45471411055-m902j8c6jo4v6mndd2jiuqkanjsvcv6j.apps.googleusercontent.com";
     static final String ClientSecret = "it5cGajZGSHQw5-e2kn2zL_R";
-    static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email";
+    static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
-
+    String commatoken;
 
 
     @Override
@@ -88,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
         mAccountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
         final Context context = this;
-
+        invalidateToken();
+        requestToken();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,26 +87,32 @@ public class MainActivity extends AppCompatActivity {
                 if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                     System.out.println(authPreferences.getToken());
                     doCoolAuthenticatedStuff();
+                    try {
+                        run();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //new RetrieveFeedTask().execute();
                 } else {
                     chooseAccount();
                 }
             }
         });
-//        Button queryButton = (Button) findViewById(R.id.queryButton);
-//
-//        queryButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isNetworkAvailable() == true) {
-//                    new RetrieveFeedTask().execute();
-//
-//                    Intent intent = new Intent(context, NavDrawerActivity.class);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(MainActivity.this, "No Network Service, please check your WiFi or Mobile Data Connection", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        Button queryButton = (Button) findViewById(R.id.queryButton);
+
+        queryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isNetworkAvailable() == true) {
+
+
+                    Intent intent = new Intent(context, NavDrawerActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "No Network Service, please check your WiFi or Mobile Data Connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
@@ -128,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doCoolAuthenticatedStuff() {
+
+
         Log.e("AuthApp", authPreferences.getToken());
     }
 
@@ -222,72 +221,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
+    private final OkHttpClient client = new OkHttpClient();
+    private final Gson gson = new Gson();
 
-        private Exception exception;
+    public void run() throws Exception {
+        Request request = new Request.Builder()
+                .url(API_URL + authPreferences.getToken())
+                .build();
 
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-            responseView.setText("");
-        }
+        client.newCall(request).enqueue(new Callback() {
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        protected String doInBackground(Void... urls) {
 
-            // Do some validation here
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            try {
-                URL url = new URL(API_URL + authPreferences.getToken());
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                int responseCode = urlConnection.getResponseCode();
-                System.out.println("GET Response code:" + responseCode);
-                urlConnection.addRequestProperty("client_id", ClientId);
-                urlConnection.addRequestProperty("client_secret", ClientSecret);
-                urlConnection.setRequestProperty("Authorization", "JWT " + authPreferences);
-                Log.i("URL", url.toString());
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
-                    }
-                    bufferedReader.close();
-                    return stringBuilder.toString();
-                } finally {
-                    urlConnection.disconnect();
+                Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                 }
-            } catch (Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
+                commatoken = response.body().string();
+                System.out.println(commatoken);
             }
-        }
 
-        protected void onPostExecute(String response) {
-            if (response == null) {
-                response = "THERE WAS AN ERROR";
+        });
+
+        final Request dataRequest = new Request.Builder()
+                .header("content-type", "application/x-www-form-urlencoded")
+                .header("authorization", "jwt"+ commatoken)
+                .url(ChffrMe_URL).build();
+
+        client.newCall(dataRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
-            progressBar.setVisibility(View.GONE);
-            Log.i("INFO", response);
-            responseView.setText(response);
-            //
-            // TODO: check this.exception
-            // TODO: do something with the feed
 
-//            try {
-//                JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
-//                String requestID = object.getString("requestId");
-//                int likelihood = object.getInt("likelihood");
-//                JSONArray photos = object.getJSONArray("photos");
-//                .
-//                .
-//                .
-//                .
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!dataRequest.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }
+                System.out.println(response.body().string());
+            }
+        });
     }
 
 
