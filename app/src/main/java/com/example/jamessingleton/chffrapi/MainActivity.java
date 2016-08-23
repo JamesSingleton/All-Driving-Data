@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACCOUNT_CODE = 1601;
     String commatoken;
     String commaMyInfo;
+    private final OkHttpClient client = new OkHttpClient();
 
-    public MainActivity(APIRequests apiRequests) {
 
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,10 +214,6 @@ public class MainActivity extends AppCompatActivity {
         Log.e("Network Testing", "Not Available");
         return false;
     }
-
-
-    private final OkHttpClient client = new OkHttpClient();
-    private final Gson gson = new Gson();
 
     public void run() throws Exception {
         Request request = new Request.Builder()
