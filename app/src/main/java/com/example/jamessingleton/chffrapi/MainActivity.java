@@ -12,19 +12,19 @@ import android.content.SharedPreferences;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Credentials;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.gms.common.SignInButton;
 import com.google.gson.Gson;
 import org.json.JSONArray;
@@ -33,11 +33,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.logging.Handler;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,14 +61,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
     String commatoken;
+    String commaMyInfo;
 
+    public MainActivity(APIRequests apiRequests) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         responseView = (TextView) findViewById(R.id.responseView);
-        emailText = (EditText) findViewById(R.id.emailText);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mAccountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
@@ -87,7 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                     System.out.println(authPreferences.getToken());
                     doCoolAuthenticatedStuff();
+                    Intent intent = new Intent(context, NavDrawerActivity.class);
+                    startActivity(intent);
+
                     try {
+
                         run();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -98,21 +100,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        Button queryButton = (Button) findViewById(R.id.queryButton);
-
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isNetworkAvailable() == true) {
-
-
-                    Intent intent = new Intent(context, NavDrawerActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "No Network Service, please check your WiFi or Mobile Data Connection", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        Button queryButton = (Button) findViewById(R.id.queryButton);
+//
+//        queryButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isNetworkAvailable() == true) {
+//                    Intent intent = new Intent(context, NavDrawerActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(MainActivity.this, "No Network Service, please check your WiFi or Mobile Data Connection", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
@@ -121,12 +121,10 @@ public class MainActivity extends AppCompatActivity {
             myDiag.show(getFragmentManager(), "WiFi");
             myDiag.setCancelable(false);
         }
-
     }
 
+
     private void doCoolAuthenticatedStuff() {
-
-
         Log.e("AuthApp", authPreferences.getToken());
     }
 
@@ -242,33 +240,60 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0, size = responseHeaders.size(); i < size; i++) {
                     System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                 }
-                commatoken = response.body().string();
-                System.out.println(commatoken);
-            }
+                try
+                {
+                    String token = response.body().string();
+                    JSONObject json = new JSONObject(token);
+                    commatoken = json.getString("access_token");
+                } catch (JSONException e)
+                {
 
-        });
-
-        final Request dataRequest = new Request.Builder()
-                .header("content-type", "application/x-www-form-urlencoded")
-                .header("authorization", "jwt"+ commatoken)
-                .url(ChffrMe_URL).build();
-
-        client.newCall(dataRequest).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!dataRequest.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                Headers responseHeaders = response.headers();
-                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                 }
-                System.out.println(response.body().string());
+//                commatoken = response.body().string();
+//                System.out.println(commatoken);
+
+                if(response.isSuccessful())
+                {
+                    final Request dataRequest = new Request.Builder()
+                            .header("content-type", "application/x-www-form-urlencoded")
+                            .header("authorization", "JWT "+ commatoken)
+                            .url(ChffrMe_URL).build();
+
+                    client.newCall(dataRequest).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response responseMe) throws IOException {
+                            if (!responseMe.isSuccessful()) throw new IOException("Unexpected code " + responseMe);
+
+                            Headers responseHeaders = responseMe.headers();
+                            for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                                System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                            }
+                            try
+                            {
+                                String myInfo = responseMe.body().string();
+                                JSONObject json = new JSONObject(myInfo);
+                                commaMyInfo = json.getString("points");
+                            } catch (JSONException e)
+                            {
+
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    responseView.setText("Comma Points: " +commaMyInfo);
+                                }
+                            });
+
+                        }
+                    });
+                }
             }
+
         });
     }
 
