@@ -52,11 +52,9 @@ public class MainActivity extends AppCompatActivity {
     EditText emailText;
     TextView responseView;
     ProgressBar progressBar;
-    static final String API_KEY = "AIzaSyCtXKguuIHokLzi2emPOAK1JzI4ScWW_oo";
+
     static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
     static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
-    static final String ClientId = "45471411055-m902j8c6jo4v6mndd2jiuqkanjsvcv6j.apps.googleusercontent.com";
-    static final String ClientSecret = "it5cGajZGSHQw5-e2kn2zL_R";
     static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
