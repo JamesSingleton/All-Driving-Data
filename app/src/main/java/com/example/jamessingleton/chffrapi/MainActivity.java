@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     Context mContext = MainActivity.this;
     private AccountManager mAccountManager;
     private AuthPreferences authPreferences;
+    private APIRequests apiRequests;
     EditText emailText;
     TextView responseView;
     ProgressBar progressBar;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mAccountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
+        apiRequests = new APIRequests(authPreferences);
         final Context context = this;
         invalidateToken();
         requestToken();
@@ -84,14 +86,11 @@ public class MainActivity extends AppCompatActivity {
                     doCoolAuthenticatedStuff();
                     Intent intent = new Intent(context, NavDrawerActivity.class);
                     startActivity(intent);
-
                     try {
-
-                        run();
+                        apiRequests.run();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    //new RetrieveFeedTask().execute();
                 } else {
                     chooseAccount();
                 }
@@ -181,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public class OnTokenAcquired implements AccountManagerCallback<Bundle> {
         @Override
         public void run(AccountManagerFuture<Bundle> result) {
@@ -214,81 +212,4 @@ public class MainActivity extends AppCompatActivity {
         Log.e("Network Testing", "Not Available");
         return false;
     }
-
-    public void run() throws Exception {
-        Request request = new Request.Builder()
-                .url(API_URL + authPreferences.getToken())
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                Headers responseHeaders = response.headers();
-                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                }
-                try
-                {
-                    String token = response.body().string();
-                    JSONObject json = new JSONObject(token);
-                    commatoken = json.getString("access_token");
-                } catch (JSONException e)
-                {
-
-                }
-//                commatoken = response.body().string();
-//                System.out.println(commatoken);
-
-                if(response.isSuccessful())
-                {
-                    final Request dataRequest = new Request.Builder()
-                            .header("content-type", "application/x-www-form-urlencoded")
-                            .header("authorization", "JWT "+ commatoken)
-                            .url(ChffrMe_URL).build();
-
-                    client.newCall(dataRequest).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response responseMe) throws IOException {
-                            if (!responseMe.isSuccessful()) throw new IOException("Unexpected code " + responseMe);
-
-                            Headers responseHeaders = responseMe.headers();
-                            for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                                System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                            }
-                            try
-                            {
-                                String myInfo = responseMe.body().string();
-                                JSONObject json = new JSONObject(myInfo);
-                                commaMyInfo = json.getString("points");
-                            } catch (JSONException e)
-                            {
-
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    responseView.setText("Comma Points: " +commaMyInfo);
-                                }
-                            });
-
-                        }
-                    });
-                }
-            }
-
-        });
-    }
-
-
 }
