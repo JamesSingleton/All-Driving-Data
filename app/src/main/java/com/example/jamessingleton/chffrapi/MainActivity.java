@@ -59,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
     static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
-    String commatoken;
-    String commaMyInfo;
-    private final OkHttpClient client = new OkHttpClient();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +79,16 @@ public class MainActivity extends AppCompatActivity {
                 if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                     System.out.println(authPreferences.getToken());
                     doCoolAuthenticatedStuff();
-                    Intent intent = new Intent(context, NavDrawerActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(context, NavDrawerActivity.class);
+//                    startActivity(intent);
+
                     try {
                         apiRequests.run();
+                        responseView.setText(apiRequests.MyRoutes);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                 } else {
                     chooseAccount();
                 }

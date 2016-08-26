@@ -1,8 +1,11 @@
 package com.example.jamessingleton.chffrapi;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -18,9 +21,11 @@ public class APIRequests {
     private final OkHttpClient client = new OkHttpClient();
     static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
     static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
+    static final String MyRoutes_URL = "https://api.comma.ai/v1/me/routes/";
     private final AuthPreferences authPreferences;
     String commatoken;
     String commaMyInfo;
+    String MyRoutes;
     private MainActivity mActivity;
 
     public APIRequests(AuthPreferences authPreferences) {
@@ -38,7 +43,7 @@ public class APIRequests {
             }
 
 
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
                 Headers responseHeaders = response.headers();
@@ -88,10 +93,40 @@ public class APIRequests {
                             }
                         }
                     });
+                    final Request routeRequest = new Request.Builder()
+                            .header("content-type", "application/x-www-form-urlencoded")
+                            .header("authorization", "JWT "+ commatoken)
+                            .url(MyRoutes_URL).build();
+
+                    client.newCall(routeRequest).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response responseRoutes) throws IOException {
+                            if (!responseRoutes.isSuccessful()) throw new IOException("Unexpected code " + responseRoutes);
+
+                            Headers responseHeaders = responseRoutes.headers();
+                            for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                                System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                            }
+                            try
+                            {
+                                String myInfo = responseRoutes.body().string();
+                                JSONObject json = new JSONObject(myInfo);
+                                MyRoutes = json.toString();
+                                System.out.println("URL: " +MyRoutes);
+                            } catch (JSONException e)
+                            {
+
+                            }
+                        }
+                    });
                 }
             }
 
         });
     }
-
 }
