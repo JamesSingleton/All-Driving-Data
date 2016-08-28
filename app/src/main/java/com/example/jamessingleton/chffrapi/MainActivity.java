@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         authPreferences = new AuthPreferences(this);
         apiRequests = new APIRequests(authPreferences);
         final Context context = this;
+
         invalidateToken();
         requestToken();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
