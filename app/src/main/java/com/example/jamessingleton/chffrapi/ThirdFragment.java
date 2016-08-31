@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,14 +49,10 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     MapFragment mapFrag;
 
-
-
-
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.third_layout, container, false);
-        return myView;
 
+        return myView;
     }
 
     @Override
@@ -64,14 +62,11 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         mapFrag = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
         //mapFrag.onResume();
-
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -79,12 +74,11 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
             LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             String provider = locationManager.getBestProvider(criteria, false);
             Location location = locationManager.getLastKnownLocation(provider);
-            double lat =  location.getLatitude();
+            double lat = location.getLatitude();
             double lng = location.getLongitude();
             LatLng coordinate = new LatLng(lat, lng);
             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
             mMap.animateCamera(yourLocation);
-
         } else {
             final AlertDialog alertDialogGPS = new AlertDialog.Builder(getActivity()).create();
 

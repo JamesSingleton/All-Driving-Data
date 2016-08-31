@@ -6,11 +6,14 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Credentials;
 import android.net.NetworkInfo;
@@ -50,12 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private AccountManager mAccountManager;
     private AuthPreferences authPreferences;
     private APIRequests apiRequests;
-    EditText emailText;
     TextView responseView;
     ProgressBar progressBar;
-
-    static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
-    static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
     static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
@@ -71,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         apiRequests = new APIRequests(authPreferences);
         final Context context = this;
 
-        invalidateToken();
-        requestToken();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                     System.out.println(authPreferences.getToken());
                     doCoolAuthenticatedStuff();
-//                    Intent intent = new Intent(context, NavDrawerActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(context, NavDrawerActivity.class);
+                    startActivity(intent);
 
                     try {
                         apiRequests.run();
@@ -95,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-//        Button queryButton = (Button) findViewById(R.id.queryButton);
-//
+
 //        queryButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -116,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
             myDiag.show(getFragmentManager(), "WiFi");
             myDiag.setCancelable(false);
         }
-    }
 
+
+    }
 
     private void doCoolAuthenticatedStuff() {
         Log.e("AuthApp", authPreferences.getToken());
@@ -161,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(requestCode);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == AUTHORIZATION_CODE) {
@@ -173,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 // invalidate old tokens which might be cached. we want a fresh
                 // one, which is guaranteed to work
                 invalidateToken();
-
                 requestToken();
             }
         }

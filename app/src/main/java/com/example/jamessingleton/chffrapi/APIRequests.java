@@ -26,7 +26,6 @@ public class APIRequests {
     String commatoken;
     String commaMyInfo;
     String MyRoutes;
-    private MainActivity mActivity;
 
     public APIRequests(AuthPreferences authPreferences) {
         this.authPreferences = authPreferences;
