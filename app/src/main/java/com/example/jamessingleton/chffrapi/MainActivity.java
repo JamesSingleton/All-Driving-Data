@@ -1,21 +1,15 @@
 package com.example.jamessingleton.chffrapi;
 
-import android.*;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.Credentials;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -26,24 +20,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.gms.common.SignInButton;
-import com.google.gson.Gson;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import java.io.BufferedReader;
-import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.Request;
+import net.danlew.android.joda.JodaTimeAndroid;
 
+import java.util.Map;
 
 
 //Add to git!
@@ -52,9 +36,14 @@ public class MainActivity extends AppCompatActivity {
     Context mContext = MainActivity.this;
     private AccountManager mAccountManager;
     private AuthPreferences authPreferences;
-    private APIRequests apiRequests;
+    SharedPreferences sharedPref;
+    EditText emailText;
     TextView responseView;
     ProgressBar progressBar;
+    static Map<String, Route> drives;
+
+    static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
+    static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
     static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
@@ -62,37 +51,48 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
         responseView = (TextView) findViewById(R.id.responseView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mAccountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
-        apiRequests = new APIRequests(authPreferences);
+        APIRequestsUtil.setAuthPreferences(authPreferences);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
         final Context context = this;
 
+        System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
+        invalidateToken();
+        //requestToken();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                requestToken();
                 if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                     System.out.println(authPreferences.getToken());
                     doCoolAuthenticatedStuff();
+
+                    if(isPreferedConnectionAvailable()) {
+                        Toast.makeText(getApplicationContext(), "Preferred connection is available!", Toast.LENGTH_LONG).show();
+                        try {
+                            APIRequestsUtil.run();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     Intent intent = new Intent(context, NavDrawerActivity.class);
                     startActivity(intent);
 
-                    try {
-                        apiRequests.run();
-                        responseView.setText(apiRequests.MyRoutes);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
                 } else {
                     chooseAccount();
                 }
             }
         });
-
+//        Button queryButton = (Button) findViewById(R.id.queryButton);
+//
 //        queryButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -112,9 +112,8 @@ public class MainActivity extends AppCompatActivity {
             myDiag.show(getFragmentManager(), "WiFi");
             myDiag.setCancelable(false);
         }
-
-
     }
+
 
     private void doCoolAuthenticatedStuff() {
         Log.e("AuthApp", authPreferences.getToken());
@@ -158,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(requestCode);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == AUTHORIZATION_CODE) {
@@ -171,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 // invalidate old tokens which might be cached. we want a fresh
                 // one, which is guaranteed to work
                 invalidateToken();
+
                 requestToken();
             }
         }
@@ -208,4 +207,20 @@ public class MainActivity extends AppCompatActivity {
         Log.e("Network Testing", "Not Available");
         return false;
     }
+
+    public boolean isPreferedConnectionAvailable(){
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(ConnectionEnum.WIFI.value.equals(sharedPref.getString("connection", null))){
+            NetworkInfo netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if(netInfo != null && netInfo.isConnected())
+                return true;
+        }else if(ConnectionEnum.MOBILE.value.equals(sharedPref.getString("connection", null))){
+            NetworkInfo netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            if(netInfo != null && netInfo.isConnected())
+                return true;
+        }
+        return false;
+    }
+
 }

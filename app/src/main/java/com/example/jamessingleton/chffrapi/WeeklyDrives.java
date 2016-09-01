@@ -11,51 +11,83 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
+
+import org.joda.time.DateTime;
+
+import java.io.IOException;
+import java.util.Map;
+
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 /**
  * Created by James Singleton on 8/13/2016.
  */
 
-public class WeeklyDrives extends Fragment
+public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequestResponseListener
 {
     View myView;
+    Map<String, Route> drives;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.weekly_drives, container, false);
-        TableLayout tl;
-        tl = (TableLayout) myView.findViewById(R.id.fragment1_tlayout);
+        APIRequestsUtil.setOnNetWorkListener(this);
 
-
-        for (int i = 0; i < 30; i++) {
-
-            TableRow tr = new TableRow(getActivity());
-
-            tr.setId(i);
-            tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            //TEXTVIEWS********
-            TextView tv1 = new TextView(getActivity());
-            tv1.setText("Drive Number");
-            tv1.setId(i);
-            tv1.setTextColor(Color.RED);
-            tv1.setTextSize(20);
-            tv1.setPadding(5, 5, 5, 5);
-            tr.addView(tv1);
-
-            TextView tv2 = new TextView(getActivity());
-
-            tv2.setText("Drive: "+ i);
-            tv2.setId(i+i);
-            tv2.setTextColor(Color.RED);
-            tv1.setTextSize(20);
-            tv2.setPadding(5, 5, 5, 5);
-            tr.addView(tv2);
-
-            tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        }
         return myView;
+    }
+
+
+    private void populateView() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drives = APIRequestsUtil.getRoutes();
+
+                TableLayout tl;
+                tl = (TableLayout) myView.findViewById(R.id.fragment1_tlayout);
+
+                int driveNum = 0;
+                for (Map.Entry drive : drives.entrySet()) {
+                    TableRow tr = new TableRow(getActivity());
+                    Route route = (Route) drive.getValue();
+                    tr.setId(driveNum++);
+                    tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    DateTime startTime = new DateTime(route.getStart_time());
+                    DateTime endTime = new DateTime(route.getEnd_time());
+
+                    System.out.println("StarTime: " + startTime);
+                    System.out.println("EndTime: " + endTime);
+                    System.out.println("Duration: " + (endTime.getMillis() - startTime.getMillis()));
+                    TextView tv1 = new TextView(getActivity());
+                    tv1.setText("Drive Number: " + driveNum + "" +
+                                "\nDistance: " + Double.parseDouble(route.getLen()) / 1000 + " km" +
+                                "\nTime: " + (endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
+                    tv1.setId(driveNum);
+                    tv1.setTextColor(Color.RED);
+                    tv1.setTextSize(20);
+                    tv1.setPadding(5, 5, 5, 5);
+                    tr.addView(tv1);
+
+                    tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onFailure(Request request, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onResponse(Response response) {
+        populateView();
     }
 }

@@ -6,11 +6,12 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.example.jamessingleton.chffrapi"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -33,5 +34,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    compile 'net.danlew:android.joda:2.9.4.1'
 }
 

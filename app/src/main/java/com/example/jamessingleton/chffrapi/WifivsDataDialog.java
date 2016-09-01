@@ -63,6 +63,9 @@ public class WifivsDataDialog extends DialogFragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         switch (view.getId()) {
             case R.id.button1:
                 // Do wifi stuff here
@@ -70,12 +73,19 @@ public class WifivsDataDialog extends DialogFragment implements View.OnClickList
                     WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
                     wifi.setWifiEnabled(true);
 
-                    dismiss();
+                editor.putString("connection", "wifi");
+                editor.commit();
+
+                dismiss();
                 break;
             case R.id.button2:
                 // Do cellular stuff here
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 Boolean isConnected = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected();
+
+                editor.putString("connection", "mobile");
+                editor.commit();
+
                 if(isConnected == true)
                 {
                     dismiss();
@@ -99,6 +109,7 @@ public class WifivsDataDialog extends DialogFragment implements View.OnClickList
 
                 break;
         }
+
     }
 }
 
