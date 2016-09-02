@@ -56,8 +56,8 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
         TextView driveTimeList = (TextView) rowView.findViewById(R.id.Drive_Time_List);
 
         driveNumList.setText(String.valueOf(driveNum));
-        driveDistList.setText(Double.parseDouble(route.getLen()) / 1000 + " km");
-        driveTimeList.setText((endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
+        driveDistList.setText(Float.parseFloat(route.getLen()) / 1000 + " km");
+        driveTimeList.setText(((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " mins");
 
         return rowView;
     }

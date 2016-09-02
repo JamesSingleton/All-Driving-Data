@@ -5,30 +5,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="3dp"
         android:textSize="20sp"
         android:textColor="#CCCCCC"
         android:text="Medium Text"
         android:id="@+id/Drive_Number_List"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:textSize="20sp"
+        android:textColor="#CCCCCC"
+        android:text="Medium Text"
+        android:id="@+id/Drive_Distance_List"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:textSize="20sp"
-        android:textColor="#CCCCCC"
-        android:text="Medium Text"
-        android:id="@+id/Drive_Distance_List"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="3dp"
         android:textSize="20sp"
         android:textColor="#CCCCCC"
         android:text="Medium Text"
