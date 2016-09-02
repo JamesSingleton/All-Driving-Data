@@ -129,8 +129,12 @@ public class SettingsFragment extends Fragment
                 }
             }
 
+        });
 
-//            public void onClick(View v) {
+        return myView;
+    }
+
+//    public void onClick(View v) {
 //                private void saveGenderInPreference () {
 //                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //                    SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -145,8 +149,4 @@ public class SettingsFragment extends Fragment
 //                    editor.commit();
 //                }
 //            }
-        });
-
-        return myView;
-    }
 }
