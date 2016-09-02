@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import org.joda.time.DateTime;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -54,54 +57,66 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
-//                TableLayout tl;
-//                tl = (TableLayout) myView.findViewById(R.id.fragment1_tlayout);
                 driveNumber = (TextView) myView.findViewById(R.id.Drive_Number);
                 driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
                 driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
 
-                driveNumber.setText("Drive Num.");
-                driveDistance.setText("Distance");
-                driveTime.setText("Time");
-                int driveNum = 0;
+                driveNumber.setText("Drive Number");
+                driveDistance.setText("Drive Distance");
+                driveTime.setText("Drive Time");
+
+                // edit: you need to generate your List data from the entrySet
+                // the ArrayAdapter cannot take a Set argument - needs to be a List
+                List<Map.Entry> list = new ArrayList<Map.Entry>();
                 for (Map.Entry drive : drives.entrySet()) {
-                    TableRow tr = new TableRow(getActivity());
-                    Route route = (Route) drive.getValue();
-                    tr.setId(driveNum++);
-                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                    DateTime startTime = new DateTime(route.getStart_time());
-                    DateTime endTime = new DateTime(route.getEnd_time());
-
-//                    System.out.println("StarTime: " + startTime);
-//                    System.out.println("EndTime: " + endTime);
-//                    System.out.println("Duration: " + (endTime.getMillis() - startTime.getMillis()));
-//                    TextView tv1 = new TextView(getActivity());
-//                    tv1.setText("Drive Number: " + driveNum + "" +
-//                                "\nDistance: " + Double.parseDouble(route.getLen()) / 1000 + " km" +
-//                                "\nTime: " + (endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
-//                    tv1.setId(driveNum);
-//                    tv1.setTextColor(Color.RED);
-//                    tv1.setTextSize(20);
-//                    tv1.setPadding(5, 5, 5, 5);
-//                    tr.addView(tv1);
-//
-//                    tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//
-
-
-                    driveNumList = (TextView) myView.findViewById(R.id.Drive_Number_List);
-                    driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
-                    driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
-
-                    driveNumList.setText(driveNumList.getText().toString() + String.valueOf(driveNum) + System.getProperty("line.separator"));
-                    driveDistList.setText(driveDistList.getText().toString() + Float.parseFloat(route.getLen()) / 1000 + " km" + System.getProperty("line.separator"));
-                    driveTimeList.setText(driveTimeList.getText().toString() + ((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " min" + System.getProperty("line.separator"));
+                    list.add(drive);
                 }
+
+                // populate the ListView
+                // may need to change "getActivity()" to something else
+                // this constructor needs the "this" context of the activity
+                DriveListAdapter drivesListAdapter = new DriveListAdapter(getActivity(), list);
+                ListView listView = (ListView)myView.findViewById(R.id.listView);
+                listView.setAdapter(drivesListAdapter);
             }
         });
-
     }
+
+//    private void populateView() {
+//        this.getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                drives = APIRequestsUtil.getRoutes();
+//
+//                driveNumber = (TextView) myView.findViewById(R.id.Drive_Number);
+//                driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
+//                driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
+//
+//                driveNumber.setText("Drive Num.");
+//                driveDistance.setText("Distance");
+//                driveTime.setText("Time");
+//                int driveNum = 0;
+//                for (Map.Entry drive : drives.entrySet()) {
+//                    TableRow tr = new TableRow(getActivity());
+//                    Route route = (Route) drive.getValue();
+//                    tr.setId(driveNum++);
+//
+//                    DateTime startTime = new DateTime(route.getStart_time());
+//                    DateTime endTime = new DateTime(route.getEnd_time());
+//
+//                    driveNumList = (TextView) myView.findViewById(R.id.Drive_Number_List);
+//                    driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
+//                    driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
+//
+//                    driveNumList.setText(driveNumList.getText().toString() + String.valueOf(driveNum) + System.getProperty("line.separator"));
+//                    driveDistList.setText(driveDistList.getText().toString() + Float.parseFloat(route.getLen()) / 1000 + " km" + System.getProperty("line.separator"));
+//                    driveTimeList.setText(driveTimeList.getText().toString() + ((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " min" + System.getProperty("line.separator"));
+//
+//                }
+//            }
+//        });
+//
+//    }
 
     @Override
     public void onFailure(Request request, Throwable throwable) {

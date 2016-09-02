@@ -4,41 +4,38 @@
     android:layout_height="match_parent">
 
     <!--Header aligned to top -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header"
+        android:gravity="center"
         android:background="#FC9">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Number"
             android:layout_margin="4dp"
             android:textSize="20sp"
             android:textColor="#000"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Distance"
             android:layout_toRightOf="@+id/Drive_Number"
             android:layout_margin="4dp"
-            android:layout_marginLeft="8dp"
             android:textSize="20sp"
             android:textColor="#000"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Time"
             android:layout_toRightOf="@+id/Drive_Distance"
             android:layout_margin="4dp"
             android:textSize="20sp"
             android:textColor="#000"/>
-    </LinearLayout>
-    <ScrollView
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical"
@@ -46,44 +43,99 @@
         android:layout_below="@+id/header"
         android:id="@+id/scrollableContents">
 
-        <!--<TableLayout-->
-            <!--android:id="@+id/fragment1_tlayout"-->
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </RelativeLayout>
+</RelativeLayout>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="vertical" android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--&lt;!&ndash;Header aligned to top &ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/header"-->
+        <!--android:background="#FC9">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Drive_Number"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#000"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Drive_Distance"-->
+            <!--android:layout_toRightOf="@+id/Drive_Number"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#000"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Drive_Time"-->
+            <!--android:layout_toRightOf="@+id/Drive_Distance"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#000"/>-->
+    <!--</LinearLayout>-->
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:scrollbars="vertical"-->
+        <!--android:background="#005"-->
+        <!--android:layout_below="@+id/header"-->
+        <!--android:id="@+id/scrollableContents">-->
+
+        <!--&lt;!&ndash;<TableLayout&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/fragment1_tlayout"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:stretchColumns="0,1">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</TableLayout>&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
+        <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:stretchColumns="0,1">-->
-
-        <!--</TableLayout>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Drive_Number_List"
-            android:layout_margin="4dp"
-            android:textSize="20sp"
-            android:textColor="#CCCCCC"
-            android:inputType="textMultiLine"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Drive_Distance_List"
-            android:layout_toRightOf="@+id/Drive_Number_List"
-            android:layout_margin="4dp"
-            android:textSize="20sp"
-            android:textColor="#CCCCCC"
-            android:inputType="textMultiLine"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Drive_Time_List"
-            android:layout_toRightOf="@+id/Drive_Distance_List"
-            android:layout_margin="4dp"
-            android:textSize="20sp"
-            android:textColor="#CCCCCC"
-            android:inputType="textMultiLine"/>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+            <!--android:id="@+id/Drive_Number_List"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#CCCCCC"-->
+            <!--android:inputType="textMultiLine"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Drive_Distance_List"-->
+            <!--android:layout_toRightOf="@+id/Drive_Number_List"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#CCCCCC"-->
+            <!--android:inputType="textMultiLine"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Drive_Time_List"-->
+            <!--android:layout_toRightOf="@+id/Drive_Distance_List"-->
+            <!--android:layout_margin="4dp"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#CCCCCC"-->
+            <!--android:inputType="textMultiLine"/>-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+<!--</RelativeLayout>-->
