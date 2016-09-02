@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 
 import org.joda.time.DateTime;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
 {
     View myView;
     Map<String, Route> drives;
+    private TextView driveNumber;
+    private TextView driveDistance;
+    private TextView driveTime;
 
     @Nullable
     @Override
@@ -47,34 +51,51 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
-                TableLayout tl;
-                tl = (TableLayout) myView.findViewById(R.id.fragment1_tlayout);
+//                TableLayout tl;
+//                tl = (TableLayout) myView.findViewById(R.id.fragment1_tlayout);
+                driveNumber = (TextView) myView.findViewById(R.id.Drive_Number);
+                driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
+                driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
 
+                driveNumber.setText("Drive Number");
+                driveDistance.setText("Drive Distance");
+                driveTime.setText("Drive Time");
                 int driveNum = 0;
                 for (Map.Entry drive : drives.entrySet()) {
                     TableRow tr = new TableRow(getActivity());
                     Route route = (Route) drive.getValue();
                     tr.setId(driveNum++);
-                    tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                     DateTime startTime = new DateTime(route.getStart_time());
                     DateTime endTime = new DateTime(route.getEnd_time());
 
-                    System.out.println("StarTime: " + startTime);
-                    System.out.println("EndTime: " + endTime);
-                    System.out.println("Duration: " + (endTime.getMillis() - startTime.getMillis()));
-                    TextView tv1 = new TextView(getActivity());
-                    tv1.setText("Drive Number: " + driveNum + "" +
-                                "\nDistance: " + Double.parseDouble(route.getLen()) / 1000 + " km" +
-                                "\nTime: " + (endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
-                    tv1.setId(driveNum);
-                    tv1.setTextColor(Color.RED);
-                    tv1.setTextSize(20);
-                    tv1.setPadding(5, 5, 5, 5);
-                    tr.addView(tv1);
+//                    System.out.println("StarTime: " + startTime);
+//                    System.out.println("EndTime: " + endTime);
+//                    System.out.println("Duration: " + (endTime.getMillis() - startTime.getMillis()));
+//                    TextView tv1 = new TextView(getActivity());
+//                    tv1.setText("Drive Number: " + driveNum + "" +
+//                                "\nDistance: " + Double.parseDouble(route.getLen()) / 1000 + " km" +
+//                                "\nTime: " + (endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
+//                    tv1.setId(driveNum);
+//                    tv1.setTextColor(Color.RED);
+//                    tv1.setTextSize(20);
+//                    tv1.setPadding(5, 5, 5, 5);
+//                    tr.addView(tv1);
+//
+//                    tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//
+                    TextView driveNumList = new TextView(getActivity());
+                    TextView driveDistList = new TextView(getActivity());
+                    TextView driveTimeList = new TextView(getActivity());
 
-                    tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    driveNumList = (TextView) myView.findViewById(R.id.Drive_Number_List);
+                    driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
+                    driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
 
+                    driveNumber.setId(driveNum);
+                    driveDistance.setText(Double.parseDouble(route.getLen()) / 1000 + " km");
+                    driveTime.setText((endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
                 }
             }
         });
