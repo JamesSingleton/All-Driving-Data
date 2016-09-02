@@ -42,7 +42,6 @@ public class SettingsFragment extends Fragment
         myView = inflater.inflate(R.layout.settings_layout, container, false);
         button= (Button)getActivity().findViewById(R.id.button3);
 
-
         RadioGroup radioGroup = (RadioGroup) myView .findViewById(R.id.radioGroup);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -83,6 +82,8 @@ public class SettingsFragment extends Fragment
                         break;
                 }
             }
+
+
 //            public void onClick(View v) {
 //                private void saveGenderInPreference () {
 //                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
