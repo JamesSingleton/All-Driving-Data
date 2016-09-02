@@ -51,7 +51,7 @@
 
         <!--</TableLayout>-->
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
@@ -59,7 +59,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Number_List"
-            android:layout_below="@+id/Drive_Number"
             android:layout_margin="4dp"
             android:textSize="20sp"
             android:textColor="#CCCCCC"/>
@@ -67,7 +66,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Distance_List"
-            android:layout_below="@+id/Drive_Distance"
             android:layout_toRightOf="@+id/Drive_Number_List"
             android:layout_margin="4dp"
             android:textSize="20sp"
@@ -76,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Time_List"
-            android:layout_below="@+id/Drive_Time"
             android:layout_toRightOf="@+id/Drive_Distance_List"
             android:layout_margin="4dp"
             android:textSize="20sp"
