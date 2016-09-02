@@ -34,6 +34,9 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
     private TextView driveNumber;
     private TextView driveDistance;
     private TextView driveTime;
+    private TextView driveNumList;
+    private TextView driveDistList;
+    private TextView driveTimeList;
 
     @Nullable
     @Override
@@ -85,17 +88,15 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
 //
 //                    tl.addView(tr, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //
-                    TextView driveNumList = new TextView(getActivity());
-                    TextView driveDistList = new TextView(getActivity());
-                    TextView driveTimeList = new TextView(getActivity());
+
 
                     driveNumList = (TextView) myView.findViewById(R.id.Drive_Number_List);
                     driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
                     driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
 
-                    driveNumber.setId(driveNum);
-                    driveDistance.setText(Double.parseDouble(route.getLen()) / 1000 + " km");
-                    driveTime.setText((endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
+                    driveNumList.setText(String.valueOf(driveNum));
+                    driveDistList.setText(Double.parseDouble(route.getLen()) / 1000 + " km");
+                    driveTimeList.setText((endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
                 }
             }
         });
