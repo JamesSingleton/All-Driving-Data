@@ -48,10 +48,13 @@ public class SettingsFragment extends Fragment
         {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
-
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editorConnection = sharedPref.edit();
                 switch(checkedId) {
                     case R.id.radioButton7:
                         // switch to fragment 1
+                        editorConnection.putString("connection", "mobile");
+                        editorConnection.commit();
                         WifiManager wifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
                         wifiManager.setWifiEnabled(false);
                         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -76,8 +79,51 @@ public class SettingsFragment extends Fragment
                         break;
                     case R.id.radioButton6:
                         // Fragment 2
+                        editorConnection.putString("connection", "wifi");
+                        editorConnection.commit();
                         WifiManager wifiManager1 = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
                         wifiManager1.setWifiEnabled(true);
+
+                        break;
+                }
+            }
+
+
+//            public void onClick(View v) {
+//                private void saveGenderInPreference () {
+//                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                    RadioGroup radioGroup1 = (RadioGroup) getActivity().findViewById(R.id.radioGroup);
+//                    int selectedId = radioGroup1.getCheckedRadioButtonId();
+//                    if (selectedId == R.id.radioButton7)
+//                        editor.putBoolean("is_Wifi", true);
+//                    else
+//                        editor.putBoolean("is_Wifi", false);
+//
+//                    editor.commit();
+//                }
+//            }
+        });
+
+        RadioGroup radioGroupMeasurement = (RadioGroup) myView .findViewById(R.id.radioGroupMeasurement);
+
+        radioGroupMeasurement.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editorMeasurements = sharedPref.edit();
+                switch(checkedId) {
+                    case R.id.radioButtonImperial:
+                        // switch to fragment 1
+                        editorMeasurements.putString("measurement", "imperial");
+                        editorMeasurements.commit();
+                        break;
+                    case R.id.radioButtonMetric:
+                        // Fragment 2
+                        editorMeasurements.putString("measurement", "metric");
+                        editorMeasurements.commit();
 
                         break;
                 }
