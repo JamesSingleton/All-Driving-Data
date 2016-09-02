@@ -4,37 +4,40 @@
     android:layout_height="match_parent">
 
     <!--Header aligned to top -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header"
-        android:gravity="center"
         android:background="#FC9">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Number"
             android:layout_margin="4dp"
             android:textSize="20sp"
             android:textColor="#000"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Distance"
             android:layout_toRightOf="@+id/Drive_Number"
             android:layout_margin="4dp"
+            android:layout_marginLeft="8dp"
             android:textSize="20sp"
             android:textColor="#000"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/Drive_Time"
             android:layout_toRightOf="@+id/Drive_Distance"
             android:layout_margin="4dp"
             android:textSize="20sp"
             android:textColor="#000"/>
-    </RelativeLayout>
+    </LinearLayout>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -61,7 +64,8 @@
             android:id="@+id/Drive_Number_List"
             android:layout_margin="4dp"
             android:textSize="20sp"
-            android:textColor="#CCCCCC" />
+            android:textColor="#CCCCCC"
+            android:inputType="textMultiLine"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +73,8 @@
             android:layout_toRightOf="@+id/Drive_Number_List"
             android:layout_margin="4dp"
             android:textSize="20sp"
-            android:textColor="#CCCCCC"/>
+            android:textColor="#CCCCCC"
+            android:inputType="textMultiLine"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +82,8 @@
             android:layout_toRightOf="@+id/Drive_Distance_List"
             android:layout_margin="4dp"
             android:textSize="20sp"
-            android:textColor="#CCCCCC"/>
+            android:textColor="#CCCCCC"
+            android:inputType="textMultiLine"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

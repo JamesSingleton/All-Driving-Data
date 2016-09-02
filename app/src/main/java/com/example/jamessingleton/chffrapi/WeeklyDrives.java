@@ -60,9 +60,9 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
                 driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
                 driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
 
-                driveNumber.setText("Drive Number");
-                driveDistance.setText("Drive Distance");
-                driveTime.setText("Drive Time");
+                driveNumber.setText("Drive Num.");
+                driveDistance.setText("Distance");
+                driveTime.setText("Time");
                 int driveNum = 0;
                 for (Map.Entry drive : drives.entrySet()) {
                     TableRow tr = new TableRow(getActivity());
@@ -94,9 +94,9 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
                     driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
                     driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
 
-                    driveNumList.setText(String.valueOf(driveNum));
-                    driveDistList.setText(Double.parseDouble(route.getLen()) / 1000 + " km");
-                    driveTimeList.setText((endTime.getMillis() - startTime.getMillis())/ 1000 + " s");
+                    driveNumList.setText(driveNumList.getText().toString() + String.valueOf(driveNum) + System.getProperty("line.separator"));
+                    driveDistList.setText(driveDistList.getText().toString() + Float.parseFloat(route.getLen()) / 1000 + " km" + System.getProperty("line.separator"));
+                    driveTimeList.setText(driveTimeList.getText().toString() + ((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " min" + System.getProperty("line.separator"));
                 }
             }
         });
