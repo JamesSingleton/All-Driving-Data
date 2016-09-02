@@ -82,42 +82,6 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
         });
     }
 
-//    private void populateView() {
-//        this.getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                drives = APIRequestsUtil.getRoutes();
-//
-//                driveNumber = (TextView) myView.findViewById(R.id.Drive_Number);
-//                driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
-//                driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
-//
-//                driveNumber.setText("Drive Num.");
-//                driveDistance.setText("Distance");
-//                driveTime.setText("Time");
-//                int driveNum = 0;
-//                for (Map.Entry drive : drives.entrySet()) {
-//                    TableRow tr = new TableRow(getActivity());
-//                    Route route = (Route) drive.getValue();
-//                    tr.setId(driveNum++);
-//
-//                    DateTime startTime = new DateTime(route.getStart_time());
-//                    DateTime endTime = new DateTime(route.getEnd_time());
-//
-//                    driveNumList = (TextView) myView.findViewById(R.id.Drive_Number_List);
-//                    driveDistList = (TextView) myView.findViewById(R.id.Drive_Distance_List);
-//                    driveTimeList = (TextView) myView.findViewById(R.id.Drive_Time_List);
-//
-//                    driveNumList.setText(driveNumList.getText().toString() + String.valueOf(driveNum) + System.getProperty("line.separator"));
-//                    driveDistList.setText(driveDistList.getText().toString() + Float.parseFloat(route.getLen()) / 1000 + " km" + System.getProperty("line.separator"));
-//                    driveTimeList.setText(driveTimeList.getText().toString() + ((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " min" + System.getProperty("line.separator"));
-//
-//                }
-//            }
-//        });
-//
-//    }
-
     @Override
     public void onFailure(Request request, Throwable throwable) {
 
@@ -126,5 +90,10 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
     @Override
     public void onResponse(Response response) {
         populateView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }
