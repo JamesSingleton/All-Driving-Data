@@ -4,6 +4,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
+    packagingOptions {
+        exclude 'META-INF/maven/com.squareup.okhttp3/okhttp/pom.properties'
+        exclude 'META-INF/maven/com.squareup.okhttp3/okhttp/pom.xml'
+    }
     defaultConfig {
         applicationId "com.example.jamessingleton.chffrapi"
         minSdkVersion 21
@@ -38,5 +42,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'net.danlew:android.joda:2.9.4.1'
+
 }
+
 

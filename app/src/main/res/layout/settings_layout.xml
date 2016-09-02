@@ -36,14 +36,45 @@
             android:checked="true" />
     </RadioGroup>
 
+    <TextView
+        android:text="What units of measurement would you like to use:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewMeasurement"
+        android:textSize="18sp"
+        android:textColor="@color/cast_expanded_controller_background_color"
+        android:layout_below="@+id/radioGroup"/>
+
+    <RadioGroup
+        android:layout_width="89dp"
+        android:layout_height="69dp"
+        android:weightSum="1"
+        android:layout_below="@+id/textViewMeasurement"
+        android:id="@+id/radioGroupMeasurement">
+
+        <RadioButton
+            android:text="Imperial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonImperial"
+            android:layout_weight="1"
+            android:checked="true"/>
+
+        <RadioButton
+            android:text="Metric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonMetric"
+            android:layout_weight="1"/>
+    </RadioGroup>
+
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button3"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/radioGroupMeasurement"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="35dp"
-        android:onClick="onClick"/>
+        android:layout_marginEnd="35dp" />
 
 </RelativeLayout>

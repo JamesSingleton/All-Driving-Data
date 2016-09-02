@@ -68,26 +68,28 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestToken();
-                if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
-                    System.out.println(authPreferences.getToken());
-                    doCoolAuthenticatedStuff();
+                if(isPreferedConnectionAvailable()) {
+                    Toast.makeText(getApplicationContext(), "Preferred connection is available!", Toast.LENGTH_LONG).show();
 
-                    if(isPreferedConnectionAvailable()) {
-                        Toast.makeText(getApplicationContext(), "Preferred connection is available!", Toast.LENGTH_LONG).show();
+                    requestToken();
+                    if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
+                        System.out.println(authPreferences.getToken());
+                        doCoolAuthenticatedStuff();
+
                         try {
                             APIRequestsUtil.run();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+
+                        Intent intent = new Intent(context, NavDrawerActivity.class);
+                        startActivity(intent);
+
+
+                    } else {
+                        chooseAccount();
                     }
-
-                    Intent intent = new Intent(context, NavDrawerActivity.class);
-                    startActivity(intent);
-
-
-                } else {
-                    chooseAccount();
                 }
             }
         });
