@@ -95,5 +95,12 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
     @Override
     public void onResume() {
         super.onResume();
+
+        try {
+            APIRequestsUtil.run();
+            populateView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
