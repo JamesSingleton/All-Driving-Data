@@ -82,10 +82,8 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                         Intent intent = new Intent(context, NavDrawerActivity.class);
                         startActivity(intent);
-
 
                     } else {
                         chooseAccount();
