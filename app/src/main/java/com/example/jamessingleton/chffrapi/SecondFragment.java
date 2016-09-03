@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -36,6 +37,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     Map<String, Route> drives;
     private ArrayAdapter<Integer> adapter;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,18 +51,18 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
             @Override
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
-
                 Spinner spinner = (Spinner) myView.findViewById(R.id.spinner);
+                spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
                 int driveNum = 0;
                 for (Map.Entry drive : drives.entrySet()) {
                     TableRow tr = new TableRow(getActivity());
                     Route route = (Route) drive.getValue();
                     tr.setId(driveNum++);
                     //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-
-
-                    spinner.setId(driveNum);
+                    ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(getActivity(),android.R.layout.simple_spinner_item,driveNum);
+                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(aa);
+                    //spinner.setId(driveNum);
 
                 }
             }
