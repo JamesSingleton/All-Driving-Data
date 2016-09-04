@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         final Context context = this;
 
         System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
-        invalidateToken();
-        //requestToken();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 if(isPreferedConnectionAvailable()) {
                     Toast.makeText(getApplicationContext(), "Preferred connection is available!", Toast.LENGTH_LONG).show();
 
-                    requestToken();
                     if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                         System.out.println(authPreferences.getToken());
                         doCoolAuthenticatedStuff();
