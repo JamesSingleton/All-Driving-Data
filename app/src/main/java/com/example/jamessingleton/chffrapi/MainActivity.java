@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         APIRequestsUtil.setAuthPreferences(authPreferences);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         final Context context = this;
-
+        requestToken();
         System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                         System.out.println(authPreferences.getToken());
+
                         doCoolAuthenticatedStuff();
 
                         try {
