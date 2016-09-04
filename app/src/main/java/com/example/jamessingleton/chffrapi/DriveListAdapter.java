@@ -5,6 +5,8 @@ package com.example.jamessingleton.chffrapi;
  */
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +28,13 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
     // you may need to change List to something else (whatever is returned from drives.entrySet())
     private final List<Map.Entry> drives;
 
+    SharedPreferences sharedPref;
     // may also need to change List here (above comment)
     public DriveListAdapter(Activity context, List<Map.Entry> drives) {
         super(context, R.layout.drive_list_item, drives);
         this.context = context;
         this.drives = drives;
+        sharedPref = context.getPreferences(Context.MODE_PRIVATE);
     }
 
 
@@ -56,7 +60,11 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
         TextView driveTimeList = (TextView) rowView.findViewById(R.id.Drive_Time_List);
 
         driveNumList.setText(String.valueOf(driveNum));
-        driveDistList.setText(Float.parseFloat(route.getLen()) / 1000 + " km");
+        if(sharedPref.getString("measurement", null).equals("imperial"))
+            driveDistList.setText((double)Math.round(Float.parseFloat(route.getLen()) * 0.000621371192)/100+ " miles");
+        else
+            driveDistList.setText((double)Math.round(Float.parseFloat(route.getLen()) / 1000)/100 + " km");
+
         driveTimeList.setText(((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " mins");
 
         return rowView;

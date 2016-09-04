@@ -1,6 +1,7 @@
 package com.example.jamessingleton.chffrapi;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,7 +93,10 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         FragmentManager fragmentSettingsManager = getFragmentManager();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            fragmentSettingsManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, new SettingsFragment());
+            ft.addToBackStack(null);
+            ft.commit();
             setTitle(R.string.action_settings);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setVisibility(View.GONE);
