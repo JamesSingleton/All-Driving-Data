@@ -61,9 +61,9 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
 
         driveNumList.setText(String.valueOf(driveNum));
         if(sharedPref.getString("measurement", null).equals("imperial"))
-            driveDistList.setText((double)Math.round(Float.parseFloat(route.getLen()) * 0.000621371192)+ " miles");
+            driveDistList.setText((double)Math.round((Float.parseFloat(route.getLen()) * 0.000621371192) * 100.0)/100.0+ " miles");
         else
-            driveDistList.setText((double)Math.round(Float.parseFloat(route.getLen()) / 1000) + " km");
+            driveDistList.setText((double)Math.round((Float.parseFloat(route.getLen()) / 1000)*100.0)/100.0 + " km");
 
         driveTimeList.setText(((endTime.getMillis() - startTime.getMillis())/ 1000)/60 + " mins");
 
