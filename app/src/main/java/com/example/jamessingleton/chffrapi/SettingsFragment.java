@@ -42,8 +42,8 @@ public class SettingsFragment extends Fragment
     private RadioButton rb1 , rb2 , rb3 , rb4 ;
 
     //Default values
-    private String connection_string_value="wifi";
-    private String measurement_string_value="imperial";
+    private String connection_string_value="";
+    private String measurement_string_value="";
 
 
     @Nullable
@@ -57,13 +57,22 @@ public class SettingsFragment extends Fragment
 
         RadioGroup radioGroup = (RadioGroup) myView .findViewById(R.id.radioGroup);
 
-        rb1 = (RadioButton) radioGroup.getChildAt(0);
-        rb2 = (RadioButton) radioGroup.getChildAt(1);
+        rb1 = (RadioButton) radioGroup.findViewById(R.id.radioButton7);
+        rb2 = (RadioButton) radioGroup.findViewById(R.id.radioButton6);
 
         //Check for saved values
-        if(!rb1.isChecked() || !rb1.isChecked()) {
+        if(rb1.isChecked() || rb2.isChecked()) {
             rb1.setChecked(sharedPref.getBoolean("rb1", false));
             rb2.setChecked(sharedPref.getBoolean("rb2", false));
+        }
+
+        if (sharedPref.getBoolean("rb1", false)){
+            connection_string_value = "mobile";
+            rb1.setChecked(true);
+        }
+        else if (sharedPref.getBoolean("rb2", false)) {
+            connection_string_value = "wifi";
+            rb2.setChecked(true);
         }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -83,15 +92,20 @@ public class SettingsFragment extends Fragment
 
         });
 
-        RadioGroup radioGroupMeasurement = (RadioGroup) myView .findViewById(R.id.radioGroupMeasurement);
+        RadioGroup radioGroupMeasurement = (RadioGroup) myView.findViewById(R.id.radioGroupMeasurement);
+        rb3 = (RadioButton) radioGroupMeasurement.findViewById(R.id.radioButtonImperial);
+        rb4 = (RadioButton) radioGroupMeasurement.findViewById(R.id.radioButtonMetric);
 
-        rb3 = (RadioButton) radioGroupMeasurement.getChildAt(0);
-        rb4 = (RadioButton) radioGroupMeasurement.getChildAt(1);
 
-        if(!rb3.isChecked() || !rb4.isChecked()) {
-            rb3.setChecked(sharedPref.getBoolean("rb3", false));
-            rb4.setChecked(sharedPref.getBoolean("rb4", false));
+        if (sharedPref.getBoolean("rb3", false)){
+            measurement_string_value = "imperial";
+            rb3.setChecked(true);
         }
+        else if (sharedPref.getBoolean("rb4", false)) {
+            measurement_string_value = "metric";
+            rb4.setChecked(true);
+        }
+
         radioGroupMeasurement.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -118,6 +132,7 @@ public class SettingsFragment extends Fragment
                 editor.putString(CONNECTION_STRING, connection_string_value);
                 editor.putBoolean("rb1", rb1.isChecked());
                 editor.putBoolean("rb2", rb2.isChecked());
+
                 editor.putString(MEASUREMENT_STRING, measurement_string_value);
                 editor.putBoolean("rb3", rb3.isChecked());
                 editor.putBoolean("rb4", rb4.isChecked());
