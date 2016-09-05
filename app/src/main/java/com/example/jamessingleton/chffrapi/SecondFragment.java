@@ -52,7 +52,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
                 Spinner spinner = (Spinner) myView.findViewById(R.id.spinner);
-                spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
+                //spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
                 int driveNum = 0;
                 for (Map.Entry drive : drives.entrySet()) {
                     TableRow tr = new TableRow(getActivity());
