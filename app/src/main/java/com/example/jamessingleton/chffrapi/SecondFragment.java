@@ -79,4 +79,16 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     public void onResponse(Response response) {
         populateView();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        try {
+            APIRequestsUtil.run();
+            populateView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
