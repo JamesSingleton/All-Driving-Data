@@ -47,26 +47,26 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     }
 
     private void populateView() {
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                drives = APIRequestsUtil.getRoutes();
-                Spinner spinner = (Spinner) myView.findViewById(R.id.spinner);
-                //spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
-                int driveNum = 0;
-                for (Map.Entry drive : drives.entrySet()) {
-                    TableRow tr = new TableRow(getActivity());
-                    Route route = (Route) drive.getValue();
-                    tr.setId(driveNum++);
-                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(getActivity(),android.R.layout.simple_spinner_item,driveNum);
-                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(aa);
-                    //spinner.setId(driveNum);
-
-                }
-            }
-        });
+//        this.getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                drives = APIRequestsUtil.getRoutes();
+//                Spinner spinner = (Spinner) myView.findViewById(R.id.spinner);
+//                spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
+//                int driveNum = 0;
+//                for (Map.Entry drive : drives.entrySet()) {
+//                    TableRow tr = new TableRow(getActivity());
+//                    Route route = (Route) drive.getValue();
+//                    tr.setId(driveNum++);
+//                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                    ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(getActivity(),android.R.layout.simple_spinner_item,driveNum);
+//                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinner.setAdapter(aa);
+//                    //spinner.setId(driveNum);
+//
+//                }
+//            }
+//        });
 
     }
 
@@ -84,11 +84,11 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     public void onResume() {
         super.onResume();
 
-        try {
-            APIRequestsUtil.run();
-            populateView();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            APIRequestsUtil.run();
+//            populateView();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

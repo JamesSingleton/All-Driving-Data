@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
-        responseView = (TextView) findViewById(R.id.responseView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mAccountManager = AccountManager.get(this);
         authPreferences = new AuthPreferences(this);
         APIRequestsUtil.setAuthPreferences(authPreferences);
@@ -89,20 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-//        Button queryButton = (Button) findViewById(R.id.queryButton);
-//
-//        queryButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isNetworkAvailable() == true) {
-//                    Intent intent = new Intent(context, NavDrawerActivity.class);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(MainActivity.this, "No Network Service, please check your WiFi or Mobile Data Connection", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
         if (!dontShowDialog) {
