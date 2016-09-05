@@ -63,9 +63,9 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
                 driveDistance = (TextView) myView.findViewById(R.id.Drive_Distance);
                 driveTime = (TextView) myView.findViewById(R.id.Drive_Time);
 
-                driveNumber.setText("Drive Number");
-                driveDistance.setText("Drive Distance");
-                driveTime.setText("Drive Time");
+                driveNumber.setText("Drive"+ System.getProperty("line.separator") +"Number");
+                driveDistance.setText("Drive"+ System.getProperty("line.separator") + "Distance");
+                driveTime.setText("Drive"+ System.getProperty("line.separator") + "Time");
 
                 // edit: you need to generate your List data from the entrySet
                 // the ArrayAdapter cannot take a Set argument - needs to be a List
