@@ -1,25 +1,16 @@
 package com.example.jamessingleton.chffrapi;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 
-import org.joda.time.DateTime;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +38,7 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.weekly_drives, container, false);
-        APIRequestsUtil.setOnNetWorkListener(this);
+        APIRequestsUtil.setOnAPIResponseListener(this);
 
         return myView;
     }

@@ -36,6 +36,7 @@ public final class APIRequestsUtil {
     private static JsonParser jp = null;
     private static PersonalInfo personalInfo = null;
     private static RoutesWrapper routesWrapper = null;
+    private static boolean callBackSuccess = false;
 
     public static APIRequestResponseListener mListener;
 
@@ -46,7 +47,7 @@ public final class APIRequestsUtil {
         mAuthPreferences = authPreferences;
     }
 
-    public static  void setOnNetWorkListener(APIRequestResponseListener listener) {
+    public static  void setOnAPIResponseListener(APIRequestResponseListener listener) {
         mListener = listener;
     }
 
@@ -135,6 +136,7 @@ public final class APIRequestsUtil {
 
                             if (mListener != null) {
                                 mListener.onResponse(response);
+                                callBackSuccess = true;
                             }
 
                         }
@@ -155,6 +157,10 @@ public final class APIRequestsUtil {
         if(mListener !=null && personalInfo !=null)
         return personalInfo;
         return null;
+    }
+
+    public static boolean isCallBackSuccess() {
+        return callBackSuccess;
     }
 
     public interface APIRequestResponseListener {
