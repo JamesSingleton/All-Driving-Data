@@ -14,4 +14,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:text="Powered by data from Chffr. Get Chffr now!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_gravity="start"
+        android:layout_marginTop="30dp"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+    <ImageView
+        android:layout_width="166dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/google_play_badge"
+        android:id="@+id/imageView3"
+        android:layout_gravity="start"
+        android:layout_marginTop="-30dp"/>
+
 </LinearLayout>

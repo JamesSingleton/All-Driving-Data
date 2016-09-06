@@ -11,12 +11,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.google.android.gms.common.SignInButton;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import java.net.URI;
 import java.util.Map;
 
 
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         requestToken();
         System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String url = "https://play.google.com/store/apps/details?id=ai.comma.chffr&hl=en";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
         if (!dontShowDialog) {
@@ -95,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             myDiag.setCancelable(false);
         }
     }
+
 
 
     private void doCoolAuthenticatedStuff() {
