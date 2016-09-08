@@ -7,13 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
+import com.google.android.gms.drive.Drive;
 
 import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static com.example.jamessingleton.chffrapi.R.id.url;
 
 /**
  * Created by James Singleton on 8/7/2016.
@@ -25,6 +30,8 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     View myView;
     Map<String, Route> drives;
     private ArrayAdapter<Integer> adapter;
+    private TextView URLDrive;
+    private String DriveURL;
 
 
     @Nullable
@@ -36,27 +43,28 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     }
 
     private void populateView() {
-//        this.getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                drives = APIRequestsUtil.getRoutes();
-//                Spinner spinner = (Spinner) myView.findViewById(R.id.spinner);
-//                spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) getActivity());
-//                int driveNum = 0;
-//                for (Map.Entry drive : drives.entrySet()) {
-//                    TableRow tr = new TableRow(getActivity());
-//                    Route route = (Route) drive.getValue();
-//                    tr.setId(driveNum++);
-//                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                    ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(getActivity(),android.R.layout.simple_spinner_item,driveNum);
-//                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                    spinner.setAdapter(aa);
-//                    //spinner.setId(driveNum);
-//
-//                }
-//            }
-//        });
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drives = APIRequestsUtil.getRoutes();
 
+
+                int driveNum = 0;
+                for (Map.Entry drive : drives.entrySet()) {
+                    TableRow tr = new TableRow(getActivity());
+                    Route route = (Route) drive.getValue();
+                    tr.setId(driveNum++);
+                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    DriveURL = route.getUrl();
+
+                    URLDrive = (TextView) myView.findViewById(R.id.textView3);
+                    URLDrive.setText(URLDrive.getText().toString()+ DriveURL + System.getProperty("line.separator"));
+
+
+                }
+            }
+        });
     }
 
     //@Override
