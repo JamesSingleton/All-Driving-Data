@@ -1,6 +1,8 @@
 package com.example.jamessingleton.chffrapi;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,12 +15,12 @@ import android.widget.TextView;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 import com.google.android.gms.drive.Drive;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static com.example.jamessingleton.chffrapi.R.id.url;
 
 /**
  * Created by James Singleton on 8/7/2016.
