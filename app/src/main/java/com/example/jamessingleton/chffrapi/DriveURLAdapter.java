@@ -51,7 +51,7 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         // need to import your Route class
         Route route = (Route) drive.getValue();
 
-        // need to import your DateTime class
+        // need to import your URL class
         String DriveURL = route.getUrl();
 
         TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
