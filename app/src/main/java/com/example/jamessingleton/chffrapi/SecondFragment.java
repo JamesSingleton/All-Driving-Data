@@ -58,7 +58,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
                     tr.setId(driveNum++);
                     //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     //https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/71de9c515e03a7616cd69cf6013878b0_2016-07-12--19-04-34/sec600.jpg gets an image
-                    //we would have to cycle through the following parts of it depending on what drive they pick '2016-07-12--19-04-34' and '600'
+                    //The above URL is an example and we can't simply replace the date and time as the previous parts of the URL change.
                     DriveURL = route.getUrl();
 
                     URLDrive = (TextView) myView.findViewById(R.id.textView3);
