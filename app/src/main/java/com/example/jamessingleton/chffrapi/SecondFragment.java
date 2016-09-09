@@ -1,39 +1,33 @@
 package com.example.jamessingleton.chffrapi;
 
 import android.app.Fragment;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TableRow;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
-import com.google.android.gms.drive.Drive;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 /**
  * Created by James Singleton on 8/7/2016.
- * Drive Player
  */
 
 public class SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener
 {
     View myView;
     Map<String, Route> drives;
-    private ArrayAdapter<Integer> adapter;
     private TextView URLDrive;
-    private String DriveURL;
 
 
     @Nullable
@@ -41,8 +35,10 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
+
         return myView;
     }
+
 
     private void populateView() {
         this.getActivity().runOnUiThread(new Runnable() {
@@ -50,31 +46,33 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
+                URLDrive = (TextView) myView.findViewById(R.id.Drive_URL);
+                URLDrive.setText("Drive URL");
 
-                int driveNum = 0;
+
+                // edit: you need to generate your List data from the entrySet
+                // the ArrayAdapter cannot take a Set argument - needs to be a List
+                List<Map.Entry> list = new ArrayList<Map.Entry>();
                 for (Map.Entry drive : drives.entrySet()) {
-                    TableRow tr = new TableRow(getActivity());
-                    Route route = (Route) drive.getValue();
-                    tr.setId(driveNum++);
-                    //tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                    DriveURL = route.getUrl();
-
-                    URLDrive = (TextView) myView.findViewById(R.id.textView3);
-                    URLDrive.setText(URLDrive.getText().toString()+ DriveURL + System.getProperty("line.separator"));
-
-
+                    list.add(drive);
                 }
+
+                // populate the ListView
+                // may need to change "getActivity()" to something else
+                // this constructor needs the "this" context of the activity
+                DriveURLAdapter drivesURLAdapter = new DriveURLAdapter(getActivity(), list);
+                ListView listView = (ListView)myView.findViewById(R.id.listViewURL);
+                listView.setAdapter(drivesURLAdapter);
             }
         });
     }
 
-    //@Override
+    @Override
     public void onFailure(Request request, Throwable throwable) {
 
     }
 
-    //@Override
+    @Override
     public void onResponse(Response response) {
         populateView();
     }
@@ -83,11 +81,11 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     public void onResume() {
         super.onResume();
 
-//        try {
-//            APIRequestsUtil.run();
-//            populateView();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            APIRequestsUtil.run();
+            populateView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
