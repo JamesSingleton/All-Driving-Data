@@ -13,7 +13,7 @@
     <string name="speed_graph">Speed Graph</string>
     <string name="drive_player">Drive Player</string>
     <string name="google_maps">Google Maps</string>
-    <string name="weekly_drives">Weekly Drives</string>
+    <string name="weekly_drives">All Your Drives</string>
     <string name="dialog_box">Due to the amount of data being retrieved, please choose between retieving this data via WiFi or Cell Data?</string>
     <string name="WiFi">WiFi</string>
     <string name="Cell_Data">Cell Data (4G)</string>

@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_drive_layout"
             android:icon="@drawable/ic_airport_shuttle_black_24dp"
-            android:title="Weekly Drives" />
+            android:title="@string/weekly_drives" />
         <item
             android:id="@+id/nav_first_layout"
             android:icon="@drawable/ic_assessment_black_24dp"

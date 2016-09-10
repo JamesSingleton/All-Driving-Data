@@ -3,30 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--Header aligned to top -->
-    <LinearLayout
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:gravity="center"
-        android:background="#FC9">
+        android:id="@+id/spinner" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/Drive_URL"
-            android:layout_margin="4dp"
-            android:textSize="18sp"
-            android:textColor="#000"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"/>
-    </LinearLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical"
         android:background="#005"
-        android:layout_below="@+id/header"
         android:id="@+id/scrollableContents">
 
         <ListView

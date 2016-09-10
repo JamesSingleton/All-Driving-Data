@@ -56,6 +56,9 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
 
         TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
         driveURLList.setText(DriveURL);
+        TextView spinnerItems = (TextView) rowView.findViewById(R.id.Spinner_Items);
+
+        spinnerItems.setText(String.valueOf(driveNum));
 
 
 

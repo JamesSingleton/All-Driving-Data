@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
@@ -27,7 +29,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
 {
     View myView;
     Map<String, Route> drives;
-    private TextView URLDrive;
+
 
 
     @Nullable
@@ -46,8 +48,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
-                URLDrive = (TextView) myView.findViewById(R.id.Drive_URL);
-                URLDrive.setText("Drive URL");
+
 
 
                 // edit: you need to generate your List data from the entrySet
@@ -63,6 +64,8 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
                 DriveURLAdapter drivesURLAdapter = new DriveURLAdapter(getActivity(), list);
                 ListView listView = (ListView)myView.findViewById(R.id.listViewURL);
                 listView.setAdapter(drivesURLAdapter);
+                Spinner spinner = (Spinner)myView.findViewById(R.id.spinner);
+                spinner.setAdapter(drivesURLAdapter);
             }
         });
     }
