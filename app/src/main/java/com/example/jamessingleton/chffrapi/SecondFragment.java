@@ -62,8 +62,8 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
                 // may need to change "getActivity()" to something else
                 // this constructor needs the "this" context of the activity
                 DriveURLAdapter drivesURLAdapter = new DriveURLAdapter(getActivity(), list);
-                ListView listView = (ListView)myView.findViewById(R.id.listViewURL);
-                listView.setAdapter(drivesURLAdapter);
+//                ListView listView = (ListView)myView.findViewById(R.id.listViewURL);
+//                listView.setAdapter(drivesURLAdapter);
                 Spinner spinner = (Spinner)myView.findViewById(R.id.spinner);
                 drivesURLAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(drivesURLAdapter);
