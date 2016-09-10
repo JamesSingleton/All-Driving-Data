@@ -65,6 +65,7 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
                 ListView listView = (ListView)myView.findViewById(R.id.listViewURL);
                 listView.setAdapter(drivesURLAdapter);
                 Spinner spinner = (Spinner)myView.findViewById(R.id.spinner);
+                drivesURLAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(drivesURLAdapter);
             }
         });

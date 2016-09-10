@@ -54,13 +54,10 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         // need to import your URL class
         String DriveURL = route.getUrl();
 
-        TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
-        driveURLList.setText(DriveURL);
         TextView spinnerItems = (TextView) rowView.findViewById(R.id.Spinner_Items);
-
+        TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
         spinnerItems.setText(String.valueOf(driveNum));
-
-
+        driveURLList.setText(DriveURL);
 
         return rowView;
     }
