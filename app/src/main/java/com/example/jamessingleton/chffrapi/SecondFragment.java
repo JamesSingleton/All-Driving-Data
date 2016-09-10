@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -25,7 +26,7 @@ import okhttp3.Response;
  * Created by James Singleton on 8/7/2016.
  */
 
-public class SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener
+public class SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener, AdapterView.OnItemSelectedListener
 {
     View myView;
     Map<String, Route> drives;
@@ -37,7 +38,6 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
-
         return myView;
     }
 
@@ -89,5 +89,14 @@ public class SecondFragment extends Fragment implements APIRequestsUtil.APIReque
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
