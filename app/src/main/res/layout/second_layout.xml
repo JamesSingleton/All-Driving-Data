@@ -9,17 +9,4 @@
         android:id="@+id/spinner"
         android:entries="@+id/Spinner_Items"/>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:background="#005"-->
-        <!--android:id="@+id/scrollableContents">-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/listViewURL"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-
-    <!--</RelativeLayout>-->
 </LinearLayout>
