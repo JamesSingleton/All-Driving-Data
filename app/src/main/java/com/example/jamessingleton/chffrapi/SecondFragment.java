@@ -48,9 +48,6 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
-
-
-
                 // edit: you need to generate your List data from the entrySet
                 // the ArrayAdapter cannot take a Set argument - needs to be a List
                 List<Map.Entry> list = new ArrayList<Map.Entry>();
