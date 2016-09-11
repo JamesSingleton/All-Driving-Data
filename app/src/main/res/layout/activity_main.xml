@@ -16,7 +16,6 @@
         android:layout_gravity="center"/>
 
     <TextView
-        android:text="Powered by data from Chffr. Get Chffr now!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"

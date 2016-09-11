@@ -64,24 +64,9 @@ public class MainActivity extends AppCompatActivity {
         requestToken();
         System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        TextView textView2 = (TextView) findViewById(R.id.textView2);
         ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
-        boolean installed = appInstalledOrNot("ai.comm.chffr");
-        if(installed) {
-            //This intent will help you to launch if the package is already installed
-            imageView3.setVisibility(View.GONE);
-            return;
-
-        } else {
-            imageView3.setVisibility(View.VISIBLE);
-            imageView3.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    String url = "https://play.google.com/store/apps/details?id=ai.comma.chffr&hl=en";
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                }
-            });
-        }
+        boolean installed = appInstalledOrNot("ai.comma.chffr");
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +93,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        if(installed) {
+            //This intent will help you to launch if the package is already installed
+            textView2.setText("This app is powered by data from Chffr.");
+            imageView3.setVisibility(View.GONE);
+            return;
+
+        } else {
+            imageView3.setVisibility(View.VISIBLE);
+            textView2.setText("This app is powered by data from Chffr. You do not have Chffr installed on your phone, get Chffr now!");
+            imageView3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    String url = "https://play.google.com/store/apps/details?id=ai.comma.chffr&hl=en";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        }
 
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
