@@ -20,7 +20,7 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
 {
 
     private LinkedList<String> dates = new LinkedList<>();
-    private DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-DD--HH-mm-ss");
+    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd--HH-mm-ss");
     private DateTimeFormatter dtfOut = DateTimeFormat.forPattern("MM/dd");
 
     public DayAxisValueFormatter( Map<String, Route> drives) {
