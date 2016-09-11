@@ -65,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Connection Preference: " + getPreferences(Context.MODE_PRIVATE).getString("connection", null));
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
+        boolean installed = appInstalledOrNot("ai.comm.chffr");
+        if(installed) {
+            //This intent will help you to launch if the package is already installed
+            imageView3.setVisibility(View.GONE);
+            return;
+
+        } else {
+            imageView3.setVisibility(View.VISIBLE);
+            imageView3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    String url = "https://play.google.com/store/apps/details?id=ai.comma.chffr&hl=en";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            });
+        }
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,14 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        imageView3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String url = "https://play.google.com/store/apps/details?id=ai.comma.chffr&hl=en";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
+
+
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
         if (!dontShowDialog) {
@@ -108,7 +119,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    private boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
+    }
 
     private void doCoolAuthenticatedStuff() {
         Log.e("AuthApp", authPreferences.getToken());

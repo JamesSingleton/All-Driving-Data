@@ -32,6 +32,6 @@
         app:srcCompat="@drawable/google_play_badge"
         android:id="@+id/imageView3"
         android:layout_gravity="start"
-        android:layout_marginTop="-30dp"/>
+        android:layout_marginTop="-30dp" />
 
 </LinearLayout>
