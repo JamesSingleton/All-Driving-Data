@@ -15,6 +15,7 @@ import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -37,7 +38,7 @@ import okhttp3.Response;
  * Speed Graph
  */
 
-public class FirstFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener, OnChartGestureListener
+public class FirstFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener
 {
     View myView;
     private int itemCount = 0;
@@ -55,7 +56,6 @@ public class FirstFragment extends Fragment implements APIRequestsUtil.APIReques
         APIRequestsUtil.setOnAPIResponseListener(this);
         mChart = new BarChart(getActivity());
         mChart.setDescription("");
-        mChart.setOnChartGestureListener(this);
 
 
         mChart.setDrawGridBackground(false);
@@ -64,14 +64,18 @@ public class FirstFragment extends Fragment implements APIRequestsUtil.APIReques
         Legend l = mChart.getLegend();
         l.setEnabled(true);
 
-        mChart.getAxisLeft().setAxisMinValue(0f);
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getAxisLeft().setSpaceTop(15f);
+        mChart.getAxisRight().setEnabled(true);
+        mChart.setPinchZoom(false);
 
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawLabels(true);
+        IAxisValueFormatter custom = new YAxisValueFormatter(sharedPref);
+
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setValueFormatter(custom);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setAxisMinValue(0f);
+
 
         // programatically add the chart
         FrameLayout parent = (FrameLayout) myView.findViewById(R.id.parentLayout);
@@ -91,15 +95,25 @@ public class FirstFragment extends Fragment implements APIRequestsUtil.APIReques
             public void run() {
                 drives = APIRequestsUtil.getRoutes();
 
+                IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(drives);
+
+                mChart.setScaleXEnabled(true);
+
+                XAxis xAxis = mChart.getXAxis();
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setGranularity(1f);
+                xAxis.setValueFormatter(xAxisFormatter);
+
+
+
                 List<Map.Entry> list = new ArrayList<Map.Entry>();
 
                 ArrayList<IBarDataSet> sets = new ArrayList<IBarDataSet>();
                 ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-                ArrayList<String> labels = new ArrayList<String>();
 
 
-                int pos = 0;
-
+                int count = 0;
                 for (Map.Entry drive : drives.entrySet()) {
 
                     String date = drive.getKey().toString();
@@ -107,9 +121,9 @@ public class FirstFragment extends Fragment implements APIRequestsUtil.APIReques
 
                     double value = getSpeed(route);
                     float fValue = (float) value;
-                    entries.add(new BarEntry(pos++, fValue));
+                    entries.add(new BarEntry(count + 1f, fValue));
+                    count++;
 
-                    labels.add(date);
                     list.add(drive);
                 }
 
@@ -119,54 +133,15 @@ public class FirstFragment extends Fragment implements APIRequestsUtil.APIReques
 
                 BarData d = new BarData(sets);
 
-                mChart.setData(d);
+                mChart.getAxisRight().setEnabled(false);
                 mChart.getLegend().setEnabled(true);
                 mChart.getXAxis().setDrawLabels(true);
+                mChart.setData(d);
                 mChart.invalidate();
             }
         });
     }
 
-
-    @Override
-    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-    }
-
-    @Override
-    public void onChartLongPressed(MotionEvent me) {
-
-    }
-
-    @Override
-    public void onChartDoubleTapped(MotionEvent me) {
-
-    }
-
-    @Override
-    public void onChartSingleTapped(MotionEvent me) {
-
-    }
-
-    @Override
-    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-
-    }
-
-    @Override
-    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-    }
-
-    @Override
-    public void onChartTranslate(MotionEvent me, float dX, float dY) {
-
-    }
-
-
-    @Override
-    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-    }
 
     @Override
     public void onFailure(Request request, Throwable throwable) {

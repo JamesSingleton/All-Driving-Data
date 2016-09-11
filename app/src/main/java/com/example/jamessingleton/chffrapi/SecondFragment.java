@@ -26,7 +26,7 @@ import okhttp3.Response;
  * Created by James Singleton on 8/7/2016.
  */
 
-public class SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener, AdapterView.OnItemSelectedListener
+public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener, AdapterView.OnItemSelectedListener
 {
     View myView;
     Map<String, Route> drives;
