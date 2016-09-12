@@ -71,8 +71,8 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
                         String url = DriveURLAdapter.DriveURL;
-                        //System.out.println(url);
-                        Glide.with(getActivity()).load(url+"/sec500.jpg").into(imageView);
+                        System.out.println(url);
+                        Glide.with(getActivity()).load(url+"/sec10.jpg").into(imageView);
 
 
                     }
