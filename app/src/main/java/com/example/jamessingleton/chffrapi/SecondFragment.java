@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
@@ -71,18 +72,14 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
                         String url = DriveURLAdapter.DriveURL;
-                        System.out.println(url);
+                        //System.out.println(url);
                         Glide.with(getActivity()).load(url+"/sec10.jpg").into(imageView);
 
-
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
+                        Toast.makeText(getActivity(), "Please select a drive to display.", Toast.LENGTH_SHORT).show();
                     }
-
-
                 });
 
             }
