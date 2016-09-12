@@ -41,7 +41,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
         ImageView imageView = (ImageView) myView.findViewById(R.id.driveImageView);
-        Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView);
+        Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec50.jpg").into(imageView);
         return myView;
     }
 
