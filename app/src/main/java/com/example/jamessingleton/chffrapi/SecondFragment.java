@@ -28,7 +28,7 @@ import okhttp3.Response;
  * Created by James Singleton on 8/7/2016.
  */
 
-public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener, AdapterView.OnItemSelectedListener
+public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequestResponseListener
 {
     View myView;
     Map<String, Route> drives;
@@ -42,7 +42,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
         imageView = (ImageView) myView.findViewById(R.id.driveImageView);
-        Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec50.jpg").into(imageView);
+        //Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec50.jpg").into(imageView);
         return myView;
     }
 
@@ -67,6 +67,24 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                 Spinner spinner = (Spinner)myView.findViewById(R.id.spinner);
                 drivesURLAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(drivesURLAdapter);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
+                        String url = DriveURLAdapter.DriveURL;
+                        //System.out.println(url);
+                        Glide.with(getActivity()).load(url+"/sec500.jpg").into(imageView);
+
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+
+
+                });
+
             }
         });
     }
@@ -91,19 +109,5 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String url = DriveURLAdapter.DriveURL;
-        System.out.println(url);
-        Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec500.jpg").into(imageView);
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }
