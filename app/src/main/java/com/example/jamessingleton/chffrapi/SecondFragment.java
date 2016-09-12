@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
+        ImageView imageView = (ImageView) myView.findViewById(R.id.driveImageView);
+        Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView);
         return myView;
     }
 
@@ -90,6 +94,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
     }
 
     @Override

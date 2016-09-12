@@ -93,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
+        if (!dontShowDialog) {
+            WifivsDataDialog myDiag = new WifivsDataDialog();
+            myDiag.show(getFragmentManager(), "WiFi");
+            myDiag.setCancelable(false);
+        }
         if(installed) {
             //This intent will help you to launch if the package is already installed
             textView2.setText("This app is powered by data from Chffr.");
@@ -112,14 +120,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        boolean dontShowDialog = sharedPref.getBoolean("DONT_SHOW_DIALOG", false);
-        if (!dontShowDialog) {
-            WifivsDataDialog myDiag = new WifivsDataDialog();
-            myDiag.show(getFragmentManager(), "WiFi");
-            myDiag.setCancelable(false);
-        }
     }
 
     private boolean appInstalledOrNot(String uri) {
