@@ -32,6 +32,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
 {
     View myView;
     Map<String, Route> drives;
+    ImageView imageView;
 
 
 
@@ -40,12 +41,12 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
-        ImageView imageView = (ImageView) myView.findViewById(R.id.driveImageView);
+        imageView = (ImageView) myView.findViewById(R.id.driveImageView);
         Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec50.jpg").into(imageView);
         return myView;
     }
 
-
+    @Nullable
     private void populateView() {
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -94,6 +95,10 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String url = DriveURLAdapter.DriveURL;
+        System.out.println(url);
+        Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec500.jpg").into(imageView);
+
 
     }
 

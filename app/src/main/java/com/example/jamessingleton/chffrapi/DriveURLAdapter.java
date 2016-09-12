@@ -27,6 +27,7 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
     private final Activity context;
     // you may need to change List to something else (whatever is returned from drives.entrySet())
     private final List<Map.Entry> drives;
+    public static String DriveURL;
 
     SharedPreferences sharedPref;
     // may also need to change List here (above comment)
@@ -52,7 +53,8 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         Route route = (Route) drive.getValue();
 
         // need to import your URL class
-        String DriveURL = route.getUrl();
+
+        DriveURL = route.getUrl();
 
         TextView spinnerItems = (TextView) rowView.findViewById(R.id.Spinner_Items);
         //TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
