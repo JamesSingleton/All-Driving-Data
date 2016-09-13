@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 
 import java.util.ArrayList;
@@ -74,7 +75,11 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                         String url = DriveURLAdapter.DriveURL;
                         long driveTime = DriveURLAdapter.driveSeconds;
                         //System.out.println(url);
-                        Glide.with(getActivity()).load(url+"/sec10.jpg").into(imageView);
+                        Glide.with(getActivity()).load(url+"/sec10.jpg")
+                                .thumbnail(0.5f)
+                                .crossFade()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(imageView);
 
                     }
                     @Override
