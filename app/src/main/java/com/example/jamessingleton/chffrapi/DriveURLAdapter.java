@@ -29,6 +29,9 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
     private final List<Map.Entry> drives;
     public static String DriveURL;
     public static long driveSeconds;
+    public static DateTime startTime;
+    public static DateTime endTime;
+
 
     SharedPreferences sharedPref;
     // may also need to change List here (above comment)
@@ -56,8 +59,8 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         // need to import your URL class
         DriveURL = route.getUrl();
 
-        DateTime startTime = new DateTime(route.getStart_time());
-        DateTime endTime = new DateTime(route.getEnd_time());
+        startTime = new DateTime(route.getStart_time());
+        endTime = new DateTime(route.getEnd_time());
         driveSeconds = ((endTime.getMillis() - startTime.getMillis())/ 1000);
         System.out.println(driveSeconds);
 

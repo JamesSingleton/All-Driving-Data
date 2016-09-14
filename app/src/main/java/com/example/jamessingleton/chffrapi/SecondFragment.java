@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
     View myView;
     Map<String, Route> drives;
     ImageView imageView;
+    SeekBar mySeekBar;
 
 
 
@@ -44,6 +46,8 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         myView = inflater.inflate(R.layout.second_layout, container, false);
         APIRequestsUtil.setOnAPIResponseListener(this);
         imageView = (ImageView) myView.findViewById(R.id.driveImageView);
+        mySeekBar = (SeekBar) myView.findViewById(R.id.seekBar);
+
         //Glide.with(this).load("https://s3-us-west-2.amazonaws.com/chffrprivate/comma-c1c0ffe42c459a06/0d69245e9ec3dcabd08c3f2145fe0c94_2016-08-16--09-08-56/sec50.jpg").into(imageView);
         return myView;
     }
