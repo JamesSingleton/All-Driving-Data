@@ -61,8 +61,6 @@ public class RouteAdapter extends ArrayAdapter<Map.Entry> {
         DriveURL = route.getUrl();
         System.out.println(DriveURL+"/route.coords");
 
-
-
         return rowView;
     }
 }
