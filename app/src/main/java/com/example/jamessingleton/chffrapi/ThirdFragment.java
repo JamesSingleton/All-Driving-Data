@@ -47,14 +47,9 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     MapFragment mapFrag;
 
-
-
-
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.third_layout, container, false);
         return myView;
-
     }
 
     @Override
@@ -64,14 +59,11 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         mapFrag = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
         //mapFrag.onResume();
-
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -114,7 +106,5 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         }
         else {
         }
-
     }
-
 }

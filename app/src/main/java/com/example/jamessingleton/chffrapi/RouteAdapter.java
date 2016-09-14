@@ -59,6 +59,7 @@ public class RouteAdapter extends ArrayAdapter<Map.Entry> {
 
         // need to import your URL class
         DriveURL = route.getUrl();
+        System.out.println(DriveURL+"/route.coords");
 
 
 
