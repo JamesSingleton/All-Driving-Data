@@ -19,11 +19,9 @@
         android:id="@+id/driveImageView" />
 
     <SeekBar
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="1"
-        android:id="@+id/seekBar"/>
+        android:id="@+id/seekBar"
+        android:thumb="@color/colorAccent"/>
 
 </LinearLayout>
