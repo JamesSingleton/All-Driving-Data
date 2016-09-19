@@ -31,12 +31,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.1.1'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.google.android.gms:play-services:9.4.0'
-    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
@@ -45,8 +46,13 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.4.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:support-v4:24.2.0'
-
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.google.android.gms:play-services-ads:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
 }
+
+
+
 
 

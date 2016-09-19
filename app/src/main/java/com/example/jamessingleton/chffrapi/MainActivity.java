@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(isPreferedConnectionAvailable()) {
                     Toast.makeText(getApplicationContext(), "Preferred connection is available!", Toast.LENGTH_LONG).show();
-
                     if (authPreferences.getUser() != null && authPreferences.getToken() != null) {
                         System.out.println(authPreferences.getToken());
 
@@ -242,5 +241,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 
 }

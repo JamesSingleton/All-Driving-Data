@@ -16,13 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/cast_album_art_placeholder"
+        android:layout_weight="1"
         android:id="@+id/driveImageView" />
 
     <SeekBar
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        style="@style/Widget.AppCompat.SeekBar"
         android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_height="wrap_content"
-        android:max="10"
         android:progress="1"
         android:id="@+id/seekBar"/>
 

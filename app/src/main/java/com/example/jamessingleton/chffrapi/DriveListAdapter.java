@@ -60,6 +60,14 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
         TextView driveTimeList = (TextView) rowView.findViewById(R.id.Drive_Time_List);
 
         driveNumList.setText(String.valueOf(driveNum));
+
+        //Default in case nothing has been setup
+        if(sharedPref.getString("measurement", null) == null) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("measurement", "imperial");
+            editor.commit();
+        }
+
         if(sharedPref.getString("measurement", null).equals("imperial"))
             driveDistList.setText((double)Math.round((Float.parseFloat(route.getLen()) * 0.000621371192) * 100.0)/100.0+ " miles");
         else
@@ -69,5 +77,6 @@ public class DriveListAdapter extends ArrayAdapter<Map.Entry> {
 
         return rowView;
     }
+
 
 }
