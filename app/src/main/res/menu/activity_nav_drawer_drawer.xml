@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_drive_layout"
-            android:icon="@drawable/ic_airport_shuttle_black_24dp"
-            android:title="@string/weekly_drives" />
+            android:icon="@drawable/ic_airport_shuttle_white_24dp"
+            android:title="@string/weekly_drives"/>
         <item
             android:id="@+id/nav_first_layout"
-            android:icon="@drawable/ic_assessment_black_24dp"
+            android:icon="@drawable/ic_assessment_white_24dp"
             android:title="Speed Graph" />
         <item
             android:id="@+id/nav_second_layout"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_photo_library_white_24dp"
             android:title="Drive Player" />
         <item
             android:id="@+id/nav_third_layout"
-            android:icon="@drawable/ic_map_black_24dp"
+            android:icon="@drawable/ic_map_white_24dp"
             android:title="Google Maps" />
     </group>
 

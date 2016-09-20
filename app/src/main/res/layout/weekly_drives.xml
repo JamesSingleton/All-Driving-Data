@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/header"
         android:gravity="center"
-        android:background="#FC9">
+        android:background="#ffffff">
 
         <TextView
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical"
-        android:background="#005"
+        android:background="#000"
         android:layout_below="@+id/header"
         android:id="@+id/scrollableContents">
 

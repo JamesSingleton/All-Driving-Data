@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
         android:entries="@+id/Spinner_Items"
-        android:textColor="#CCCCCC"
-        android:background="#005"/>
+        android:textColor="#ffffff"
+        android:background="#000"/>
 
     <ImageView
         android:layout_width="match_parent"

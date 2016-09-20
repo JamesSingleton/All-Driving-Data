@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:textSize="20sp"
-        android:textColor="#CCCCCC"
+        android:textColor="#ffffff"
         android:text="Medium Text"
         android:id="@+id/Spinner_Items"
         android:layout_weight="1"
