@@ -3,11 +3,14 @@ package com.example.jamessingleton.chffrapi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,6 +20,7 @@ import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +39,10 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 /**
  * Created by James Singleton on 8/7/2016.
@@ -46,6 +53,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     View myView;
     private GoogleMap mMap;
     MapFragment mapFrag;
+    private Polyline line;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.third_layout, container, false);
@@ -65,8 +74,12 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+            line = mMap.addPolyline((new PolylineOptions())
+                    .add(new LatLng(33.8031, -118.0726), new LatLng(33.9192, -118.4165))
+                    .width(5)
+                    .color(Color.RED));
             Criteria criteria = new Criteria();
             LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             String provider = locationManager.getBestProvider(criteria, false);
@@ -76,6 +89,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
             LatLng coordinate = new LatLng(lat, lng);
             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
             mMap.animateCamera(yourLocation);
+
+
 
         } else {
             final AlertDialog alertDialogGPS = new AlertDialog.Builder(getActivity()).create();
@@ -107,4 +122,5 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         else {
         }
     }
+
 }
