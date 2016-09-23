@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,6 +44,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by James Singleton on 8/7/2016.
@@ -54,6 +56,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     MapFragment mapFrag;
     private Polyline line;
+    private PolylineOptions lineOptions;
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,12 +78,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            line = mMap.addPolyline((new PolylineOptions())
-                    .add(new LatLng(33.8031, -118.0726), new LatLng(33.9192, -118.4165))
-                    .width(5)
-                    .color(Color.RED));
+
             Criteria criteria = new Criteria();
             LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             String provider = locationManager.getBestProvider(criteria, false);
@@ -89,6 +89,20 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
             LatLng coordinate = new LatLng(lat, lng);
             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
             mMap.animateCamera(yourLocation);
+            lineOptions = new PolylineOptions()
+                    .add(new LatLng(33.927085040000001, -118.39129683))
+                    .add(new LatLng(33.927085969382027, -118.39129820011991))
+                    .add(new LatLng(33.927081024586677, -118.39130352185116))
+                    .add(new LatLng(33.927077084498386, -118.39130986277655))
+                    .add(new LatLng(33.92707405365519, -118.39131496827862))
+                    .add(new LatLng(33.927066722586623, -118.39131750469446))
+                    .add(new LatLng(33.927068689880947, -118.39131823397425))
+                    .add(new LatLng(33.927068030419839, -118.39131796208994))
+                    .add(new LatLng(33.927065982966624, -118.39132090766913))
+                    .add(new LatLng(33.927065258415212, -118.3913193654964))
+                    .width(5)
+                    .color(Color.RED);
+            line = mMap.addPolyline(lineOptions);
 
 
 
