@@ -13,29 +13,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Drive;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
+public class DriveURLAdapter extends ArrayAdapter<Drive> {
 
-    private final Activity context;
-    // you may need to change List to something else (whatever is returned from drives.entrySet())
-    private final List<Map.Entry> drives;
     public static String DriveURL;
     public static long driveSeconds;
     public static DateTime startTime;
     public static DateTime endTime;
-
-
+    private final Activity context;
+    // you may need to change List to something else (whatever is returned from drives.entrySet())
+    private final List<Drive> drives;
     SharedPreferences sharedPref;
     // may also need to change List here (above comment)
-    public DriveURLAdapter(Activity context, List<Map.Entry> drives) {
+    public DriveURLAdapter(Activity context, List<Drive> drives) {
         super(context, R.layout.drive_url_list, drives);
         this.context = context;
         this.drives = drives;
@@ -48,13 +44,13 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.drive_url_list, null, true);
 
-        Map.Entry drive = this.drives.get(position);
+        Drive drive = this.drives.get(position);
 
         // position is the index of the drives.entrySet() array
         int driveNum = position + 1;
 
         // need to import your Route class
-        Route route = (Route) drive.getValue();
+        Route route = drive.getRoute();
 
         // need to import your URL class
         DriveURL = route.getUrl();
@@ -65,11 +61,11 @@ public class DriveURLAdapter extends ArrayAdapter<Map.Entry> {
         System.out.println(driveSeconds);
 
         TextView spinnerItems = (TextView) rowView.findViewById(R.id.Spinner_Items);
-        //TextView driveURLList = (TextView) rowView.findViewById(R.id.Drive_URL_List);
         spinnerItems.setText(String.valueOf(driveNum));
         //driveURLList.setText(DriveURL);
 
         return rowView;
     }
+
 
 }
