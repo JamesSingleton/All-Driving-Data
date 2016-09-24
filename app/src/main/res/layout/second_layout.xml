@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
+        android:background="#000"
         android:entries="@+id/Spinner_Items"
-        android:textColor="#ffffff"
-        android:background="#000"/>
+        android:textColor="#ffffff" />
 
     <ImageView
+        android:id="@+id/driveImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cast_album_art_placeholder"
-        android:id="@+id/driveImageView" />
+        android:layout_weight="1"
+        app:srcCompat="@drawable/cast_album_art_placeholder" />
 
 
     <SeekBar
+        android:id="@+id/seekBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="3"
-        android:id="@+id/seekBar" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="1"
+        android:progress="3" />
+
 
 </LinearLayout>
