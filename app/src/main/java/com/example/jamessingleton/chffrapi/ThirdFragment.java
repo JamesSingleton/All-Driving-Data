@@ -100,7 +100,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
                     .add(new LatLng(33.927068030419839, -118.39131796208994))
                     .add(new LatLng(33.927065982966624, -118.39132090766913))
                     .add(new LatLng(33.927065258415212, -118.3913193654964))
-                    .width(5)
+                    .width(20)
                     .color(Color.RED);
             line = mMap.addPolyline(lineOptions);
 
