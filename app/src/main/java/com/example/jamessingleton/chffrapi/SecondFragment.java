@@ -107,6 +107,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                                     Glide.with(getActivity())
                                             .load(URLs.get(progress))
+                                            .override(480,270)
                                             .fitCenter()
                                             .dontAnimate()
                                             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -167,7 +168,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         for(final String url: URLs){
             Glide.with(this)
                     .load(url)
-                    .downloadOnly(new SimpleTarget<File>() {
+                    .downloadOnly(new SimpleTarget<File>(480,270) {
                         @Override
                         public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
                             Log.i("glide", "image downloaded" + url);
