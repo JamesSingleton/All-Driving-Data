@@ -193,8 +193,10 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                             mySeekBar.setMax(totalImages++);
                         }
                     });
+            mySeekBar.setVisibility(View.VISIBLE);
+            myProgress.setVisibility(View.VISIBLE);
         }
-        myProgress.setVisibility(View.VISIBLE);
-        mySeekBar.setVisibility(View.VISIBLE);
+
+
     }
 }
