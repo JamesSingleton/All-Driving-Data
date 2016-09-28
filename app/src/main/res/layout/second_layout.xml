@@ -17,7 +17,7 @@
         android:id="@+id/driveImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.93"
         app:srcCompat="@drawable/cast_album_art_placeholder" />
 
 
@@ -29,7 +29,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:max="1"
-        android:progress="3" />
+        android:progress="3"
+        android:layout_marginBottom="10dp"/>
 
 
 </LinearLayout>
