@@ -9,14 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.NothingSelectedSpinnerAdapter;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Drive;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
@@ -40,6 +44,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
     Map<String, Route> drives;
     ImageView imageView;
     SeekBar mySeekBar;
+    ProgressBar myProgress;
     int totalImages = 0;
 
     @Nullable
@@ -50,6 +55,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         imageView = (ImageView) myView.findViewById(R.id.driveImageView);
         mySeekBar = (SeekBar) myView.findViewById(R.id.seekBar);
         mySeekBar.setMax(1);
+        myProgress = (ProgressBar) myView.findViewById(R.id.progress);
         return myView;
     }
 
@@ -107,6 +113,18 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                                     Glide.with(getActivity())
                                             .load(URLs.get(progress))
+                                            .listener(new RequestListener<String, GlideDrawable>() {
+                                                @Override
+                                                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                                    return false;
+                                                }
+
+                                                @Override
+                                                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                                    myProgress.setVisibility(View.GONE);
+                                                    return false;
+                                                }
+                                            })
                                             .override(480,270)
                                             .fitCenter()
                                             .dontAnimate()
