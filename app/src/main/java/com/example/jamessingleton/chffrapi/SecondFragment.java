@@ -194,5 +194,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                         }
                     });
         }
+        myProgress.setVisibility(View.VISIBLE);
+        mySeekBar.setVisibility(View.VISIBLE);
     }
 }
