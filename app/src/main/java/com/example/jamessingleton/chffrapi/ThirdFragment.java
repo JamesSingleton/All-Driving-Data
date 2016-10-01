@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.RouteCoord;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,8 +44,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.jamessingleton.chffrapi.MainActivity.drives;
 
 /**
  * Created by James Singleton on 8/7/2016.
@@ -57,6 +61,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     MapFragment mapFrag;
     private Polyline line;
     private PolylineOptions lineOptions;
+    public static String routeLat;
+    public static String routeLng;
 
 
 
@@ -103,7 +109,20 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
                     .width(20)
                     .color(Color.RED);
             line = mMap.addPolyline(lineOptions);
-
+//            List<Map.Entry> list = new ArrayList<Map.Entry>();
+//            for (Map.Entry drive : drives.entrySet()) {
+//                list.add(drive);
+//            }
+//            RouteCoord routeCoord = (RouteCoord) drive.getValue();
+//            routeLat = routeCoord.getLat();
+//            double routeLatDouble = Double.parseDouble(routeLat);
+//            routeLng = routeCoord.getLng();
+//            double routeLngDouble = Double.parseDouble(routeLng);
+//
+//            for(list<500)
+//            {
+//                lineOptions.add(new LatLng(routeLatDouble, routeLngDouble));
+//            }
 
 
         } else {
