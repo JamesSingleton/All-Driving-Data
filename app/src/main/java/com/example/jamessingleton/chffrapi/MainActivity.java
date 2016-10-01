@@ -90,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
                         chooseAccount();
                     }
                 }
+                else {
+                    Toast.makeText(getApplicationContext(), "You are not connected to your preferred connection." + "\n" +
+                            "Please connect to your preferred connection to continue."
+                            , Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
