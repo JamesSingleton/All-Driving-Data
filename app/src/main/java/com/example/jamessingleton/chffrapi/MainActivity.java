@@ -17,19 +17,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.SignInButton;
-
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import java.net.URI;
 import java.util.Map;
 
 
@@ -40,13 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountManager mAccountManager;
     private AuthPreferences authPreferences;
     SharedPreferences sharedPref;
-    EditText emailText;
-    TextView responseView;
-    ProgressBar progressBar;
     static Map<String, Route> drives;
-
-    static final String API_URL = "https://api.comma.ai/v1/auth/?access_token=";
-    static final String ChffrMe_URL = "https://api.comma.ai/v1/me/";
     static final String SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me";
     private static final int AUTHORIZATION_CODE = 1993;
     private static final int ACCOUNT_CODE = 1601;
@@ -222,17 +210,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Log.e("Network Testing", "Available");
-            return true;
-        }
-        Log.e("Network Testing", "Not Available");
-        return false;
-    }
-
     public boolean isPreferedConnectionAvailable(){
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -247,6 +224,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
 }
