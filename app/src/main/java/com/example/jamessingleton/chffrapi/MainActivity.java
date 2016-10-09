@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "You are not connected to your preferred connection." + "\n" +
-                            "Please connect to your preferred connection: " + sharedPref +" to continue."
+                            "Please connect to your preferred connection: " + sharedPref.getString("connection",null) +" to continue."
                             , Toast.LENGTH_LONG).show();
                 }
 

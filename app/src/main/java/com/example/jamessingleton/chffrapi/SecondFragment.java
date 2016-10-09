@@ -113,18 +113,6 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                                     Glide.with(getActivity())
                                             .load(URLs.get(progress))
-                                            .listener(new RequestListener<String, GlideDrawable>() {
-                                                @Override
-                                                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                                    return false;
-                                                }
-
-                                                @Override
-                                                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                                    myProgress.setVisibility(View.GONE);
-                                                    return false;
-                                                }
-                                            })
                                             .override(480,270)
                                             .fitCenter()
                                             .dontAnimate()
@@ -193,8 +181,6 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                             mySeekBar.setMax(totalImages++);
                         }
                     });
-            mySeekBar.setVisibility(View.VISIBLE);
-            myProgress.setVisibility(View.VISIBLE);
         }
 
 
