@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/All-Driving-Data.iml" filepath="$PROJECT_DIR$/All-Driving-Data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ChffrAPI.iml" filepath="$PROJECT_DIR$/ChffrAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

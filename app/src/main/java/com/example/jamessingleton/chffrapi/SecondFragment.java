@@ -112,7 +112,7 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                                 @Override
                                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                                     Glide.with(getActivity())
-                                            .load(URLs.get(progress))
+                                            .load(URLs.get(progress+1))
                                             .override(480,270)
                                             .fitCenter()
                                             .dontAnimate()
