@@ -139,16 +139,12 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //.setAction("Action", null).show();
-
                     String URLimage = SecondFragment.imageURL;
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
                     sendIntent.putExtra(Intent.EXTRA_TEXT, "Look at what I captured with Chffr! \n" + URLimage);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-
                 }
             });
         } else if (id == R.id.nav_third_layout) {
@@ -159,8 +155,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 //            fab.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
-//                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    //.setAction("Action", null).show();
 //
 //                    Intent sendIntent = new Intent();
 //                    sendIntent.setAction(Intent.ACTION_SEND);
