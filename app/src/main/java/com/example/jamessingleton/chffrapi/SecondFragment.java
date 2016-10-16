@@ -42,10 +42,11 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
 {
     View myView;
     Map<String, Route> drives;
-    ImageView imageView;
+    public static ImageView imageView;
     SeekBar mySeekBar;
     ProgressBar myProgress;
     int totalImages = 0;
+    public static String imageURL;
 
     @Nullable
     @Override
@@ -118,6 +119,8 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
                                             .dontAnimate()
                                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                                             .into(imageView);
+
+                                    imageURL = URLs.get(progress+1);
 
                                 }
 

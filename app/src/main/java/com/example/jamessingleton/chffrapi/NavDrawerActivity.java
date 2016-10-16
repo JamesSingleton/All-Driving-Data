@@ -4,7 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
-
+import android.widget.ImageView;
 
 
 public class NavDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -114,21 +116,21 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();
             setTitle(R.string.speed_graph);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setVisibility(View.VISIBLE);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //.setAction("Action", null).show();
-
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the speed graph!");
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-
-                }
-            });
+            fab.setVisibility(View.GONE);
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    //.setAction("Action", null).show();
+//
+//                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the speed graph!");
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+//
+//                }
+//            });
         } else if (id == R.id.nav_second_layout) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new SecondFragment()).commit();
             setTitle(R.string.drive_player);
@@ -140,9 +142,10 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                     //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     //.setAction("Action", null).show();
 
+                    String URLimage = SecondFragment.imageURL;
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the drive player");
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, URLimage);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
 
@@ -152,41 +155,41 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             fragmentManager.beginTransaction().replace(R.id.content_frame, new ThirdFragment()).commit();
             setTitle(R.string.google_maps);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setVisibility(View.VISIBLE);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //.setAction("Action", null).show();
-
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the Google Maps menu!");
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-
-                }
-            });
+            fab.setVisibility(View.GONE);
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    //.setAction("Action", null).show();
+//
+//                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the Google Maps menu!");
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+//
+//                }
+//            });
 
         }else if (id == R.id.nav_drive_layout) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new WeeklyDrives()).commit();
             setTitle(R.string.weekly_drives);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setVisibility(View.VISIBLE);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //.setAction("Action", null).show();
-
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the All Your Drives menu!");
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-
-                }
-            });
+            fab.setVisibility(View.GONE);
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    //.setAction("Action", null).show();
+//
+//                    Intent sendIntent = new Intent();
+//                    sendIntent.setAction(Intent.ACTION_SEND);
+//                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Sending from the All Your Drives menu!");
+//                    sendIntent.setType("text/plain");
+//                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+//
+//                }
+//            });
 
         }else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent();
