@@ -7,6 +7,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_info">Info</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="title_activity_nav_drawer">All Driving Data</string>
     <string name="send_to">Share with</string>

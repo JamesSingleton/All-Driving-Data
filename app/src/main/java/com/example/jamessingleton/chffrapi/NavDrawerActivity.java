@@ -102,6 +102,14 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             setTitle(R.string.action_settings);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setVisibility(View.GONE);
+        } else if (id == R.id.action_info) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, new InfoFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+            setTitle(R.string.action_info);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setVisibility(View.GONE);
         }
         return super.onOptionsItemSelected(item);
     }
