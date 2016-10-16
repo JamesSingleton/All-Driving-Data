@@ -145,7 +145,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                     String URLimage = SecondFragment.imageURL;
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, URLimage);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Look at what I captured with Chffr! \n" + URLimage);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
 
