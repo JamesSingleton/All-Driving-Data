@@ -113,6 +113,11 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
 //            for (Map.Entry drive : drives.entrySet()) {
 //                list.add(drive);
 //            }
+//            final String url = DriveURLAdapter.DriveURL;
+//            final List<String> URLs = new ArrayList<String>();
+//            for (int x = 0; x < list; x++) {
+//                URLs.add(url + "/route.coords");
+//            }
 //            RouteCoord routeCoord = (RouteCoord) drive.getValue();
 //            routeLat = routeCoord.getLat();
 //            double routeLatDouble = Double.parseDouble(routeLat);
