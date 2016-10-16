@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Drive;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.RouteCoord;
 import com.google.android.gms.maps.CameraUpdate;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.jamessingleton.chffrapi.MainActivity.drives;
+
 
 /**
  * Created by James Singleton on 8/7/2016.
@@ -63,6 +64,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     private PolylineOptions lineOptions;
     public static String routeLat;
     public static String routeLng;
+    Map<String, Route> drives;
 
 
 
@@ -109,15 +111,19 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
                     .width(20)
                     .color(Color.RED);
             line = mMap.addPolyline(lineOptions);
-//            List<Map.Entry> list = new ArrayList<Map.Entry>();
-//            for (Map.Entry drive : drives.entrySet()) {
-//                list.add(drive);
-//            }
-//            final String url = DriveURLAdapter.DriveURL;
-//            final List<String> URLs = new ArrayList<String>();
-//            for (int x = 0; x < list; x++) {
-//                URLs.add(url + "/route.coords");
-//            }
+            drives = APIRequestsUtil.getRoutes();
+            List<Drive> list = new ArrayList<Drive>();
+            final List<String> URLs = new ArrayList<String>();
+            for (Map.Entry drive : drives.entrySet()) {
+                Drive d = new Drive(drive.getKey().toString(), (Route) drive.getValue());
+                URLs.add(d.getRoute().getUrl()+"/route.coords");
+                list.add(d);
+            }
+
+
+            for (int x = 0; x < list.size(); x++) {
+                System.out.println(URLs);
+            }
 //            RouteCoord routeCoord = (RouteCoord) drive.getValue();
 //            routeLat = routeCoord.getLat();
 //            double routeLatDouble = Double.parseDouble(routeLat);
