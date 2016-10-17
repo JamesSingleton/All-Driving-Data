@@ -164,7 +164,8 @@ public class  SecondFragment extends Fragment implements APIRequestsUtil.APIRequ
         super.onResume();
 
         try {
-            APIRequestsUtil.run();
+            //APIRequestsUtil.run();
+            populateView();
         } catch (Exception e) {
             e.printStackTrace();
         }

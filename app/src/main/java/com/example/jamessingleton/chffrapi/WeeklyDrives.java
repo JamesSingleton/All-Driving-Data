@@ -90,7 +90,7 @@ public class WeeklyDrives extends Fragment implements APIRequestsUtil.APIRequest
         super.onResume();
 
         try {
-            APIRequestsUtil.run();
+            //APIRequestsUtil.run();
             populateView();
         } catch (Exception e) {
             e.printStackTrace();

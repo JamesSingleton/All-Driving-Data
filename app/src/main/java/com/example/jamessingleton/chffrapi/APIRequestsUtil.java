@@ -3,6 +3,8 @@ package com.example.jamessingleton.chffrapi;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffapi.common.JacksonWrapper;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.PersonalInfo;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.Route;
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.RouteCoord;
+import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.RouteCoordWrapper;
 import com.example.jamessingleton.chffrapi.com.examples.jamessingleton.chffrapi.data.RoutesWrapper;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -36,6 +40,9 @@ public final class APIRequestsUtil {
     private static JsonParser jp = null;
     private static PersonalInfo personalInfo = null;
     private static RoutesWrapper routesWrapper = null;
+    private static List<RouteCoord[]> routesCoordWrappers = null;
+    private static RouteCoord[] routeCoordWrapper = null;
+    private static final String API_ROUTE_COORDS = "/route.coords";
     private static boolean callBackSuccess = false;
 
     public static APIRequestResponseListener mListener;
@@ -134,6 +141,7 @@ public final class APIRequestsUtil {
                                 jp = factory.createParser(routes);
                                 routesWrapper = objectMapper.readValue(jp, RoutesWrapper.class);
 
+                            getRouteCoords();
                             if (mListener != null) {
                                 mListener.onResponse(response);
                                 callBackSuccess = true;
@@ -141,10 +149,53 @@ public final class APIRequestsUtil {
 
                         }
                     });
+
+
                 }
             }
 
         });
+    }
+
+
+    private static void getRouteCoords(){
+        if(routesWrapper != null) {
+            System.out.println("Called ");
+
+            routesCoordWrappers = new ArrayList<RouteCoord[]>();
+
+            for (Map.Entry route : routesWrapper.getRoutes().entrySet()) {
+
+                Route r = (Route) route.getValue();
+                String coordUrl = r.getUrl() + API_ROUTE_COORDS;
+                final Request routeCoordsRequest = new Request.Builder().url(coordUrl).build();
+
+
+                client.newCall(routeCoordsRequest).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response routeCoordsResponse) throws IOException {
+                        if (!routeCoordsResponse.isSuccessful()) throw new IOException("Unexpected code " + routeCoordsResponse);
+
+                        String routeCoords = routeCoordsResponse.body().string();
+                        jp = factory.createParser(routeCoords);
+                        routeCoordWrapper = objectMapper.readValue(jp, RouteCoord[].class);
+                        routesCoordWrappers.add(routeCoordWrapper);
+                        System.out.println("Size: "  + routesCoordWrappers.size());
+                    }
+                });
+            }
+        }
+    }
+
+    public static List<RouteCoord[]> getRoutesCoords(){
+        if(routesCoordWrappers !=null)
+            return routesCoordWrappers;
+        return null;
     }
 
     public static Map<String, Route> getRoutes(){

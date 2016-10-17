@@ -65,6 +65,12 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     public static String routeLat;
     public static String routeLng;
     Map<String, Route> drives;
+    List<RouteCoord[]> routeCoords;
+    Double startingLat;
+    Double startingLong;
+
+
+
 
 
 
@@ -88,52 +94,66 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            Criteria criteria = new Criteria();
-            LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-            String provider = locationManager.getBestProvider(criteria, false);
-            Location location = locationManager.getLastKnownLocation(provider);
-            double lat =  location.getLatitude();
-            double lng = location.getLongitude();
-            LatLng coordinate = new LatLng(lat, lng);
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
-            mMap.animateCamera(yourLocation);
-            lineOptions = new PolylineOptions()
-                    .add(new LatLng(33.927085040000001, -118.39129683))
-                    .add(new LatLng(33.927085969382027, -118.39129820011991))
-                    .add(new LatLng(33.927081024586677, -118.39130352185116))
-                    .add(new LatLng(33.927077084498386, -118.39130986277655))
-                    .add(new LatLng(33.92707405365519, -118.39131496827862))
-                    .add(new LatLng(33.927066722586623, -118.39131750469446))
-                    .add(new LatLng(33.927068689880947, -118.39131823397425))
-                    .add(new LatLng(33.927068030419839, -118.39131796208994))
-                    .add(new LatLng(33.927065982966624, -118.39132090766913))
-                    .add(new LatLng(33.927065258415212, -118.3913193654964))
-                    .width(20)
-                    .color(Color.RED);
-            line = mMap.addPolyline(lineOptions);
-            drives = APIRequestsUtil.getRoutes();
-            List<Drive> list = new ArrayList<Drive>();
-            final List<String> URLs = new ArrayList<String>();
-            for (Map.Entry drive : drives.entrySet()) {
-                Drive d = new Drive(drive.getKey().toString(), (Route) drive.getValue());
-                URLs.add(d.getRoute().getUrl()+"/route.coords");
-                list.add(d);
-            }
+//            Criteria criteria = new Criteria();
+//            LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+//            String provider = locationManager.getBestProvider(criteria, false);
+//            Location location = locationManager.getLastKnownLocation(provider);
+//            //double lat =  location.getLatitude();
+            //double lng = location.getLongitude();
+           // LatLng coordinate = new LatLng(lat, lng);
+           // CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
+            //mMap.animateCamera(yourLocation);
 
-
-            for (int x = 0; x < list.size(); x++) {
-                System.out.println(URLs);
-            }
-//            RouteCoord routeCoord = (RouteCoord) drive.getValue();
-//            routeLat = routeCoord.getLat();
-//            double routeLatDouble = Double.parseDouble(routeLat);
-//            routeLng = routeCoord.getLng();
-//            double routeLngDouble = Double.parseDouble(routeLng);
+//            lineOptions = new PolylineOptions()
+//                    .add(new LatLng(33.927085040000001, -118.39129683))
+//                    .add(new LatLng(33.927085969382027, -118.39129820011991))
+//                    .add(new LatLng(33.927081024586677, -118.39130352185116))
+//                    .add(new LatLng(33.927077084498386, -118.39130986277655))
+//                    .add(new LatLng(33.92707405365519, -118.39131496827862))
+//                    .add(new LatLng(33.927066722586623, -118.39131750469446))
+//                    .add(new LatLng(33.927068689880947, -118.39131823397425))
+//                    .add(new LatLng(33.927068030419839, -118.39131796208994))
+//                    .add(new LatLng(33.927065982966624, -118.39132090766913))
+//                    .add(new LatLng(33.9269443, -118.3863717))
+//                    .width(10)
+//                    .color(Color.RED);
 //
-//            for(list<500)
-//            {
-//                lineOptions.add(new LatLng(routeLatDouble, routeLngDouble));
-//            }
+//            mMap.addPolyline(lineOptions);
+
+
+
+
+            //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(33.927085040000001, -118.39129683)));
+//            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(33.927065258415212, -118.3913193654964)).bearing(45).tilt(90).zoom(mMap.getCameraPosition().zoom).build();
+//
+//
+//            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+//            drives = APIRequestsUtil.getRoutes();
+//
+            routeCoords = APIRequestsUtil.getRoutesCoords();
+            System.out.println("Size in Map " + routeCoords.size());
+            if(routeCoords !=null) {
+                PolylineOptions options = null;
+                for (RouteCoord[] routeCoordArray : routeCoords) {
+                    options = new PolylineOptions();
+                    for (RouteCoord rCoord : routeCoordArray) {
+                        Double lat = Double.parseDouble(rCoord.getLat());
+                        Double lng = Double.parseDouble(rCoord.getLng());
+                        options.add(new LatLng(lat, lng));
+                        System.out.println("Lat: " + rCoord.getLat() + "\n" + "Long: " + rCoord.getLng());
+                    }
+                    options.width(10);
+                    options.color(Color.RED);
+
+                    mMap.addPolyline(options);
+
+                }
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(calculateCentroid(routeCoords),13);
+                mMap.animateCamera(yourLocation);
+
+            }
+
 
 
         } else {
@@ -161,10 +181,31 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            mapFrag.getMapAsync(this);
+            //mapFrag.getMapAsync(this);
         }
         else {
         }
     }
+
+    private static LatLng calculateCentroid(List<RouteCoord[]> geoCoordinates){
+        int count = 0;
+        double avgLat = -1;
+        double avgLng = -1;
+        double totalLat = -1;
+        double totalLng = -1;
+        for(RouteCoord[] routeCoords : geoCoordinates){
+            for(RouteCoord routeCoord : routeCoords){
+                count++;
+                totalLat += Double.parseDouble(routeCoord.getLat());
+                totalLng += Double.parseDouble(routeCoord.getLng());
+            }
+        }
+        avgLat = totalLat / count;
+        avgLng = totalLng / count;
+
+
+        return new LatLng(avgLat, avgLng);
+    }
+
 
 }
