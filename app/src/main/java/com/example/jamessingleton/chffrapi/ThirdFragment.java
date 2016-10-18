@@ -149,7 +149,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
                     mMap.addPolyline(options);
 
                 }
-                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(calculateCentroid(routeCoords),13);
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(calculateCentroid(routeCoords),10);
                 mMap.animateCamera(yourLocation);
 
             }
