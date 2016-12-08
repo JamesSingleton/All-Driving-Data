@@ -3,6 +3,7 @@ package com.example.jamessingleton.chffrapi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.Manifest;
@@ -14,6 +15,7 @@ import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.SyncStateContract;
@@ -68,6 +70,7 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
     List<RouteCoord[]> routeCoords;
     Double startingLat;
     Double startingLong;
+    private ProgressDialog progress;
 
 
 
@@ -85,6 +88,11 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
 
         mapFrag = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
+
+        progress = new ProgressDialog(getActivity());
+        progress.setTitle("Please Wait");
+        progress.setMessage("Retrieving Routes Information");
+
         //mapFrag.onResume();
     }
 
@@ -94,68 +102,8 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-//            Criteria criteria = new Criteria();
-//            LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-//            String provider = locationManager.getBestProvider(criteria, false);
-//            Location location = locationManager.getLastKnownLocation(provider);
-//            //double lat =  location.getLatitude();
-            //double lng = location.getLongitude();
-           // LatLng coordinate = new LatLng(lat, lng);
-           // CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 13);
-            //mMap.animateCamera(yourLocation);
-
-//            lineOptions = new PolylineOptions()
-//                    .add(new LatLng(33.927085040000001, -118.39129683))
-//                    .add(new LatLng(33.927085969382027, -118.39129820011991))
-//                    .add(new LatLng(33.927081024586677, -118.39130352185116))
-//                    .add(new LatLng(33.927077084498386, -118.39130986277655))
-//                    .add(new LatLng(33.92707405365519, -118.39131496827862))
-//                    .add(new LatLng(33.927066722586623, -118.39131750469446))
-//                    .add(new LatLng(33.927068689880947, -118.39131823397425))
-//                    .add(new LatLng(33.927068030419839, -118.39131796208994))
-//                    .add(new LatLng(33.927065982966624, -118.39132090766913))
-//                    .add(new LatLng(33.9269443, -118.3863717))
-//                    .width(10)
-//                    .color(Color.RED);
-//
-//            mMap.addPolyline(lineOptions);
-
-
-
-
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(33.927085040000001, -118.39129683)));
-//            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(33.927065258415212, -118.3913193654964)).bearing(45).tilt(90).zoom(mMap.getCameraPosition().zoom).build();
-//
-//
-//            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-//            drives = APIRequestsUtil.getRoutes();
-//
-            routeCoords = APIRequestsUtil.getRoutesCoords();
-            System.out.println("Size in Map " + routeCoords.size());
-            if(routeCoords !=null) {
-                PolylineOptions options = null;
-                for (RouteCoord[] routeCoordArray : routeCoords) {
-                    options = new PolylineOptions();
-                    for (RouteCoord rCoord : routeCoordArray) {
-                        Double lat = Double.parseDouble(rCoord.getLat());
-                        Double lng = Double.parseDouble(rCoord.getLng());
-                        options.add(new LatLng(lat, lng));
-                        System.out.println("Lat: " + rCoord.getLat() + "\n" + "Long: " + rCoord.getLng());
-                    }
-                    options.width(10);
-                    options.color(Color.RED);
-
-                    mMap.addPolyline(options);
-
-                }
-                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(calculateCentroid(routeCoords),10);
-                mMap.animateCamera(yourLocation);
-
-            }
-
-
-
+            new routesSyncTask().execute();
+            
         } else {
             final AlertDialog alertDialogGPS = new AlertDialog.Builder(getActivity()).create();
 
@@ -207,5 +155,44 @@ public class ThirdFragment extends Fragment implements OnMapReadyCallback {
         return new LatLng(avgLat, avgLng);
     }
 
+    private class routesSyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            routeCoords = APIRequestsUtil.getRoutesCoords();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String types) {
+            progress.dismiss();
+
+            if(routeCoords !=null) {
+                PolylineOptions options = null;
+                for (RouteCoord[] routeCoordArray : routeCoords) {
+                    options = new PolylineOptions();
+                    for (RouteCoord rCoord : routeCoordArray) {
+                        Double lat = Double.parseDouble(rCoord.getLat());
+                        Double lng = Double.parseDouble(rCoord.getLng());
+                        options.add(new LatLng(lat, lng));
+                        System.out.println("Lat: " + rCoord.getLat() + "\n" + "Long: " + rCoord.getLng());
+                    }
+                    options.width(10);
+                    options.color(Color.RED);
+
+                    mMap.addPolyline(options);
+
+                }
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(calculateCentroid(routeCoords),10);
+                mMap.animateCamera(yourLocation);
+
+            }
+        }
+    }
 
 }

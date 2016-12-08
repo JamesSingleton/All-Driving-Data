@@ -110,9 +110,9 @@ public final class APIRequestsUtil {
                                 System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                             }
 
-                                String myInfo = responseMe.body().string();
-                                jp = factory.createParser(myInfo);
-                                personalInfo = objectMapper.readValue(jp, PersonalInfo.class);
+                            String myInfo = responseMe.body().string();
+                            jp = factory.createParser(myInfo);
+                            personalInfo = objectMapper.readValue(jp, PersonalInfo.class);
 
 
                         }
@@ -137,9 +137,9 @@ public final class APIRequestsUtil {
                                 System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                             }
 
-                                String routes = responseRoutes.body().string();
-                                jp = factory.createParser(routes);
-                                routesWrapper = objectMapper.readValue(jp, RoutesWrapper.class);
+                            String routes = responseRoutes.body().string();
+                            jp = factory.createParser(routes);
+                            routesWrapper = objectMapper.readValue(jp, RoutesWrapper.class);
 
                             getRouteCoords();
                             if (mListener != null) {
@@ -200,13 +200,13 @@ public final class APIRequestsUtil {
 
     public static Map<String, Route> getRoutes(){
         if(mListener !=null && routesWrapper !=null)
-        return routesWrapper.getRoutes();
+            return routesWrapper.getRoutes();
         return null;
     }
 
     public static PersonalInfo getPersonalInfo(){
         if(mListener !=null && personalInfo !=null)
-        return personalInfo;
+            return personalInfo;
         return null;
     }
 
